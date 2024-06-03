@@ -121,40 +121,40 @@
             <div class="input-wrapper">
               <label for="input-1" class="input-label">Enter Name</label>
 
-              <input type="text" pattern="^[a-zA-Z]+(?: [a-zA-Z]+)+$" required name="car-model" id="input-1" class="input-field"
-                placeholder="Your Full Name">
+              <input type="text" pattern="^[a-zA-Z\s]+$" required name="car-model" id="input-1" class="input-field"
+                placeholder="Your Full Name" title="Full name must contain only letters and spaces">
             </div>
 
             <div class="input-wrapper">
               <label for="input-2" class="input-label">Mobile Number</label>
 
-              <input type="number" name="monthly-pay" id="input-2" class="input-field" placeholder="Mobile Number">
+              <input type="number" name="monthly-pay" id="input-2" class="input-field" placeholder="Mobile Number" pattern="^\d{10}$" required>
             </div>
 
             <div class="input-wrapper">
-              <label for="input-3" class="input-label">Pickup Address</label>
+              <label for="input-3" class="input-label">Pickup Point</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Pickup Address">
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Pickup Point" required>
             </div>
             <div class="input-wrapper">
-              <label for="input-3" class="input-label">Drop Address</label>
+              <label for="input-3" class="input-label">Drop Point</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Drop Address">
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Drop Point" required>
             </div>
             <div class="input-wrapper">
               <label for="input-3" class="input-label">Pickup Date</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Pickup Address">
+              <input type="date" name="year" id="input-3" class="input-field" placeholder="Add Pickup Address" required>
             </div>
             <div class="input-wrapper">
               <label for="input-3" class="input-label">Pickup Time</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Drop Address">
+              <input type="time" name="year" id="input-3" class="input-field" placeholder="Add Drop Address" required>
             </div>
             <div class="input-wrapper">
               <label for="input-3" class="input-label">Cab Type</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Select Cab Type">
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Select Cab Type" required>
             </div>
               
             <button type="submit" class="btn">Submit</button>
