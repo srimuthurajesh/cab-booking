@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ridex - Rent your favourite car</title>
+  <title>Jafar - Rent your favourite car</title>
 
   <!-- 
     - favicon
@@ -49,7 +49,7 @@
           </li>
 
           <li>
-            <a href="#featured-car" class="navbar-link" data-nav-link>Explore cars</a>
+            <a href="#featured-car" class="navbar-link" data-nav-link>Explore</a>
           </li>
 
           <li>
@@ -57,7 +57,7 @@
           </li>
 
           <li>
-            <a href="#blog" class="navbar-link" data-nav-link>Blog</a>
+            <a href="#blog" class="navbar-link" data-nav-link>Contact us</a>
           </li>
 
         </ul>
@@ -66,7 +66,7 @@
       <div class="header-actions">
 
         <div class="header-contact">
-          <a href="tel:88002345678" class="contact-link">8 800 234 56 78</a>
+          <a href="tel:88002345678" class="contact-link">+91 95513 24623</a>
 
           <span class="contact-time">Mon - Sat: 9:00 am - 6:00 pm</span>
         </div>
@@ -77,10 +77,10 @@
           <span id="aria-label-txt">Explore cars</span>
         </a>
 
-        <a href="#" class="btn user-btn" aria-label="Profile">
+<!--        <a href="#" class="btn user-btn" aria-label="Profile">
           <ion-icon name="person-outline"></ion-icon>
         </a>
-
+-->
         <button class="nav-toggle-btn" data-nav-toggle-btn aria-label="Toggle Menu">
           <span class="one"></span>
           <span class="two"></span>
@@ -107,10 +107,10 @@
         <div class="container">
 
           <div class="hero-content">
-            <h2 class="h1 hero-title">The easy way to takeover a lease</h2>
+            <h2 class="h1 hero-title">The easy way to Book your Cab</h2>
 
             <p class="hero-text">
-              Live in New York, New Jerset and Connecticut!
+              Book affordable one way and drop taxi services to Chennai with City Drop Taxi.
             </p>
           </div>
 
@@ -119,25 +119,45 @@
           <form action="" class="hero-form">
 
             <div class="input-wrapper">
-              <label for="input-1" class="input-label">Car, model, or brand</label>
+              <label for="input-1" class="input-label">Enter Name</label>
 
-              <input type="text" name="car-model" id="input-1" class="input-field"
-                placeholder="What car are you looking?">
+              <input type="text" pattern="^[a-zA-Z]+(?: [a-zA-Z]+)+$" required name="car-model" id="input-1" class="input-field"
+                placeholder="Your Full Name">
             </div>
 
             <div class="input-wrapper">
-              <label for="input-2" class="input-label">Max. monthly payment</label>
+              <label for="input-2" class="input-label">Mobile Number</label>
 
-              <input type="text" name="monthly-pay" id="input-2" class="input-field" placeholder="Add an amount in $">
+              <input type="number" name="monthly-pay" id="input-2" class="input-field" placeholder="Mobile Number">
             </div>
 
             <div class="input-wrapper">
-              <label for="input-3" class="input-label">Make Year</label>
+              <label for="input-3" class="input-label">Pickup Address</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add a minimal make year">
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Pickup Address">
             </div>
+            <div class="input-wrapper">
+              <label for="input-3" class="input-label">Drop Address</label>
 
-            <button type="submit" class="btn">Search</button>
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Drop Address">
+            </div>
+            <div class="input-wrapper">
+              <label for="input-3" class="input-label">Pickup Date</label>
+
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Pickup Address">
+            </div>
+            <div class="input-wrapper">
+              <label for="input-3" class="input-label">Pickup Time</label>
+
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Drop Address">
+            </div>
+            <div class="input-wrapper">
+              <label for="input-3" class="input-label">Cab Type</label>
+
+              <input type="text" name="year" id="input-3" class="input-field" placeholder="Select Cab Type">
+            </div>
+              
+            <button type="submit" class="btn">Submit</button>
 
           </form>
 
