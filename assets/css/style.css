@@ -546,6 +546,7 @@ button, a { transition: var(--transition); }
 }
 
 .featured-car-card .fav-btn {
+    display: none;
   --background: var(--beau-blue);
   --color: var(--blue-jeans);
   --height: 36px;
@@ -705,6 +706,7 @@ button, a { transition: var(--transition); }
   align-items: center;
 }
 
+
 .blog-card :is(.publish-date, .comments) {
   display: flex;
   align-items: center;
@@ -716,6 +718,9 @@ button, a { transition: var(--transition); }
 .blog-card :is(.publish-date, .comments) ion-icon {
   font-size: 15px;
   --ionicon-stroke-width: 50px;
+}
+.comments {
+    display: none!important;
 }
 
 .blog .has-scrollbar {
@@ -983,7 +988,7 @@ button, a { transition: var(--transition); }
 
   .hero-banner {
     display: block;
-    background: url("../images/hero-banner.jpg") no-repeat;
+    background: url("../images/hero-banner.jpeg") no-repeat;
     background-size: cover;
     background-position: left;
     position: absolute;
@@ -1186,7 +1191,10 @@ button, a { transition: var(--transition); }
     scroll-snap-align: center;
   }
 
-
+ .mirror {
+            transform: scaleX(-1);
+            display: inline-block;
+        }
 
   /**
    * FOOTER

@@ -24,6 +24,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Open+Sans&display=swap"
     rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" > </script>
+           
+     
 </head>
 
 <body>
@@ -116,49 +119,49 @@
 
           <div class="hero-banner"></div>
 
-          <form action="" class="hero-form">
+          <form action="" class="hero-form" id="hero-form">
 
             <div class="input-wrapper">
               <label for="input-1" class="input-label">Enter Name</label>
 
-              <input type="text" pattern="^[a-zA-Z\s]+$" required name="car-model" id="input-1" class="input-field"
+              <input type="text" pattern="^[a-zA-Z]+" required name="customer_name" id="input-1" class="input-field"
                 placeholder="Your Full Name" title="Full name must contain only letters and spaces">
             </div>
 
             <div class="input-wrapper">
               <label for="input-2" class="input-label">Mobile Number</label>
 
-              <input type="number" name="monthly-pay" id="input-2" class="input-field" placeholder="Mobile Number" pattern="^\d{10}$" required>
+              <input type="number" name="customer_number" id="input-2" class="input-field" placeholder="Mobile Number" pattern="^\d{10} ₹" required>
             </div>
 
             <div class="input-wrapper">
               <label for="input-3" class="input-label">Pickup Point</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Pickup Point" required>
+              <input type="text" name="customer_pickup_loc" id="input-3" class="input-field" placeholder="Add Pickup Point" required>
             </div>
             <div class="input-wrapper">
-              <label for="input-3" class="input-label">Drop Point</label>
+              <label for="input-4" class="input-label">Drop Point</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add Drop Point" required>
+              <input type="text" name="customer_drop_loc" id="input-4" class="input-field" placeholder="Add Drop Point" required>
             </div>
             <div class="input-wrapper">
-              <label for="input-3" class="input-label">Pickup Date</label>
+              <label for="input-5" class="input-label">Pickup Date</label>
 
-              <input type="date" name="year" id="input-3" class="input-field" placeholder="Add Pickup Address" required>
+              <input type="date" name="customer_pickup_date" id="input-5" class="input-field" placeholder="Add Pickup Address" required>
             </div>
             <div class="input-wrapper">
-              <label for="input-3" class="input-label">Pickup Time</label>
+              <label for="input-6" class="input-label">Pickup Time</label>
 
-              <input type="time" name="year" id="input-3" class="input-field" placeholder="Add Drop Address" required>
+              <input type="time" name="customer_pickup_time" id="input-6" class="input-field" placeholder="Add Drop Address" step = '60' min="12:00" required>
             </div>
             <div class="input-wrapper">
-              <label for="input-3" class="input-label">Cab Type</label>
+              <label for="input-7" class="input-label">Cab Type</label>
 
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Select Cab Type" required>
+              <input type="text" name="cab_type" id="input-7" class="input-field" placeholder="Select Cab Type" required>
             </div>
               
             <button type="submit" class="btn">Submit</button>
-
+            <button type="reset" class="btn btn-reset">Reset</button>
           </form>
 
         </div>
@@ -191,15 +194,15 @@
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-1.jpg" alt="Toyota RAV4 2021" loading="lazy" width="440" height="300"
-                    class="w-100">
+                  <img src="./assets/images/car-1.png" alt="Toyota RAV4 2021" loading="lazy" width="440" height="300"
+                    class="w-100 mirror">
                 </figure>
 
                 <div class="card-content">
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">Toyota RAV4</a>
+                      <a href="#">Maruti Swift Dzire</a>
                     </h3>
 
                     <data class="year" value="2021">2021</data>
@@ -216,7 +219,7 @@
                     <li class="card-list-item">
                       <ion-icon name="flash-outline"></ion-icon>
 
-                      <span class="card-item-text">Hybrid</span>
+                      <span class="card-item-text">Pertol</span>
                     </li>
 
                     <li class="card-list-item">
@@ -236,14 +239,14 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong>$440</strong> / month
+                      <strong> ₹13</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn">Rent now</button>
+                    <button class="btn">Book now</button>
 
                   </div>
 
@@ -256,7 +259,7 @@
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-2.jpg" alt="BMW 3 Series 2019" loading="lazy" width="440" height="300"
+                  <img src="./assets/images/car-2.png" alt="BMW 3 Series 2019" loading="lazy" width="440" height="300"
                     class="w-100">
                 </figure>
 
@@ -264,7 +267,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">BMW 3 Series</a>
+                      <a href="#">Indica</a>
                     </h3>
 
                     <data class="year" value="2019">2019</data>
@@ -281,7 +284,7 @@
                     <li class="card-list-item">
                       <ion-icon name="flash-outline"></ion-icon>
 
-                      <span class="card-item-text">Gasoline</span>
+                      <span class="card-item-text">Petrol</span>
                     </li>
 
                     <li class="card-list-item">
@@ -301,7 +304,7 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong>$350</strong> / month
+                      <strong> ₹9</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
@@ -321,7 +324,7 @@
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-3.jpg" alt="Volkswagen T-Cross 2020" loading="lazy" width="440"
+                  <img src="./assets/images/car-3.png" alt="Volkswagen T-Cross 2020" loading="lazy" width="440"
                     height="300" class="w-100">
                 </figure>
 
@@ -329,7 +332,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">Volkswagen T-Cross</a>
+                      <a href="#">Innova</a>
                     </h3>
 
                     <data class="year" value="2020">2020</data>
@@ -340,13 +343,13 @@
                     <li class="card-list-item">
                       <ion-icon name="people-outline"></ion-icon>
 
-                      <span class="card-item-text">4 People</span>
+                      <span class="card-item-text">6 People</span>
                     </li>
 
                     <li class="card-list-item">
                       <ion-icon name="flash-outline"></ion-icon>
 
-                      <span class="card-item-text">Gasoline</span>
+                      <span class="card-item-text">Diesel</span>
                     </li>
 
                     <li class="card-list-item">
@@ -366,7 +369,7 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong>$400</strong> / month
+                      <strong> ₹18</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
@@ -386,7 +389,7 @@
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-4.jpg" alt="Cadillac Escalade 2020" loading="lazy" width="440"
+                  <img src="./assets/images/car-4.webp" alt="Cadillac Escalade 2020" loading="lazy" width="440"
                     height="300" class="w-100">
                 </figure>
 
@@ -394,7 +397,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">Cadillac Escalade</a>
+                      <a href="#">Hyundai Xcent</a>
                     </h3>
 
                     <data class="year" value="2020">2020</data>
@@ -411,7 +414,7 @@
                     <li class="card-list-item">
                       <ion-icon name="flash-outline"></ion-icon>
 
-                      <span class="card-item-text">Gasoline</span>
+                      <span class="card-item-text">Petrol</span>
                     </li>
 
                     <li class="card-list-item">
@@ -431,7 +434,7 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong>$620</strong> / month
+                      <strong> ₹20</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
@@ -459,7 +462,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">BMW 4 Series GTI</a>
+                      <a href="#">Xylo</a>
                     </h3>
 
                     <data class="year" value="2021">2021</data>
@@ -470,13 +473,13 @@
                     <li class="card-list-item">
                       <ion-icon name="people-outline"></ion-icon>
 
-                      <span class="card-item-text">4 People</span>
+                      <span class="card-item-text">6 People</span>
                     </li>
 
                     <li class="card-list-item">
                       <ion-icon name="flash-outline"></ion-icon>
 
-                      <span class="card-item-text">Gasoline</span>
+                      <span class="card-item-text">Diesel</span>
                     </li>
 
                     <li class="card-list-item">
@@ -496,7 +499,7 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong>$530</strong> / month
+                      <strong> ₹25</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
@@ -516,7 +519,7 @@
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-6.jpg" alt="BMW 4 Series 2019" loading="lazy" width="440" height="300"
+                  <img src="./assets/images/car-6.jpeg" alt="BMW 4 Series 2019" loading="lazy" width="440" height="300"
                     class="w-100">
                 </figure>
 
@@ -524,7 +527,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">BMW 4 Series</a>
+                      <a href="#">Maruthi Ertiga</a>
                     </h3>
 
                     <data class="year" value="2019">2019</data>
@@ -535,13 +538,13 @@
                     <li class="card-list-item">
                       <ion-icon name="people-outline"></ion-icon>
 
-                      <span class="card-item-text">4 People</span>
+                      <span class="card-item-text">6 People</span>
                     </li>
 
                     <li class="card-list-item">
                       <ion-icon name="flash-outline"></ion-icon>
 
-                      <span class="card-item-text">Gasoline</span>
+                      <span class="card-item-text">Diesel</span>
                     </li>
 
                     <li class="card-list-item">
@@ -561,7 +564,7 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong>$490</strong> / month
+                      <strong> ₹25</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
@@ -601,13 +604,13 @@
               <div class="get-start-card">
 
                 <div class="card-icon icon-1">
-                  <ion-icon name="person-add-outline"></ion-icon>
+                  <ion-icon name="time-outline"></ion-icon>
                 </div>
 
-                <h3 class="card-title">Create a profile</h3>
+                <h3 class="card-title">Pickup Time of your choice</h3>
 
                 <p class="card-text">
-                  If you are going to use a passage of Lorem Ipsum, you need to be sure.
+                 Choose your preferred pickup time for a convenient ride.
                 </p>
 
                 <a href="#" class="card-link">Get started</a>
@@ -619,13 +622,13 @@
               <div class="get-start-card">
 
                 <div class="card-icon icon-2">
-                  <ion-icon name="car-outline"></ion-icon>
+                 <ion-icon name="home-outline"></ion-icon>
                 </div>
 
-                <h3 class="card-title">Tell us what car you want</h3>
+                <h3 class="card-title">Door step pickup drop</h3>
 
                 <p class="card-text">
-                  Various versions have evolved over the years, sometimes by accident, sometimes on purpose
+                  Experience hassle-free doorstep pickup and drop-off service.
                 </p>
 
               </div>
@@ -635,14 +638,13 @@
               <div class="get-start-card">
 
                 <div class="card-icon icon-3">
-                  <ion-icon name="person-outline"></ion-icon>
+                  <ion-icon name="map-outline"></ion-icon>
                 </div>
 
-                <h3 class="card-title">Match with seller</h3>
+                <h3 class="card-title">Service across major cities</h3>
 
                 <p class="card-text">
-                  It to make a type specimen book. It has survived not only five centuries, but also the leap into
-                  electronic
+                  Travel seamlessly across the region with our extensive services.
                 </p>
 
               </div>
@@ -652,13 +654,13 @@
               <div class="get-start-card">
 
                 <div class="card-icon icon-4">
-                  <ion-icon name="card-outline"></ion-icon>
+                  <ion-icon name="airplane-outline"></ion-icon>
                 </div>
 
-                <h3 class="card-title">Make a deal</h3>
+                <h3 class="card-title">Airport pick-up & drop</h3>
 
                 <p class="card-text">
-                  There are many variations of passages of Lorem available, but the majority have suffered alteration
+                  Convenient airport pick-up and drop, ensuring timely arrivals.
                 </p>
 
               </div>
@@ -690,7 +692,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./assets/images/blog-1.jpg" alt="Opening of new offices of the company" loading="lazy"
+                    <img src="./assets/images/blog-1.webp" alt="Opening of new offices of the company" loading="lazy"
                       class="w-100">
                   </a>
 
@@ -701,7 +703,7 @@
                 <div class="card-content">
 
                   <h3 class="h3 card-title">
-                    <a href="#">Opening of new offices of the company</a>
+                    <a href="#"> User fee hike at 36 toll plazas across Tamil Nadu </a>
                   </h3>
 
                   <div class="card-meta">
@@ -709,7 +711,7 @@
                     <div class="publish-date">
                       <ion-icon name="time-outline"></ion-icon>
 
-                      <time datetime="2022-01-14">January 14, 2022</time>
+                      <time datetime="2024-01-03">January 3, 2024</time>
                     </div>
 
                     <div class="comments">
@@ -731,18 +733,18 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./assets/images/blog-2.jpg" alt="What cars are most vulnerable" loading="lazy"
+                    <img src="./assets/images/blog-2.webp" alt="What cars are most vulnerable" loading="lazy"
                       class="w-100">
                   </a>
 
-                  <a href="#" class="btn card-badge">Repair</a>
+                  <a href="#" class="btn card-badge">Roads</a>
 
                 </figure>
 
                 <div class="card-content">
 
                   <h3 class="h3 card-title">
-                    <a href="#">What cars are most vulnerable</a>
+                    <a href="#"> Ranipet-Walajapet road expansion stalled by NHAI </a>
                   </h3>
 
                   <div class="card-meta">
@@ -750,7 +752,7 @@
                     <div class="publish-date">
                       <ion-icon name="time-outline"></ion-icon>
 
-                      <time datetime="2022-01-14">January 14, 2022</time>
+                      <time datetime="2024-05-30">May 30, 2024</time>
                     </div>
 
                     <div class="comments">
@@ -916,9 +918,7 @@
           </a>
 
           <p class="footer-text">
-            Search for cheap rental cars in New York. With a diverse fleet of 19,000 vehicles, Waydex offers its
-            consumers an
-            attractive and fun selection.
+            Welcome, your trusted partner for seamless and reliable transportation services. We pride ourselves on delivering top-notch service with a focus on punctuality and customer satisfaction. 
           </p>
         </div>
 
@@ -973,39 +973,39 @@
         <ul class="footer-list">
 
           <li>
-            <p class="footer-list-title">Neighborhoods in New York</p>
+            <p class="footer-list-title">Neighborhoods in Chennai</p>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Manhattan</a>
+            <a href="#" class="footer-link">Chennai</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Central New York City</a>
+            <a href="#" class="footer-link">Chennai Airport</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Upper East Side</a>
+            <a href="#" class="footer-link">Egmore</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Queens</a>
+            <a href="#" class="footer-link">Pondicherry</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Theater District</a>
+            <a href="#" class="footer-link">Tirupathi</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Midtown</a>
+            <a href="#" class="footer-link">Bangalore</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">SoHo</a>
+            <a href="#" class="footer-link">Madurai</a>
           </li>
 
           <li>
-            <a href="#" class="footer-link">Chelsea</a>
+            <a href="#" class="footer-link">Kanyakumari</a>
           </li>
 
         </ul>
