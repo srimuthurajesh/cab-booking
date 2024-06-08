@@ -839,7 +839,7 @@ input[type=number] {
     }
     .input-wrapper-success {
             margin-top: 20px;
-            display: flex;
+            display: none;
             align-items: center;
             font-size: 1rem;
             color: #28a745;
