@@ -51,7 +51,14 @@ window.addEventListener("scroll", function () {
   window.scrollY >= 10 ? header.classList.add("active")
     : header.classList.remove("active");
 });
-
+ function showSuccessMessage() {
+    document.querySelector('.input-wrapper-success').style.display = 'flex';
+    document.getElementById('customer_name').innerText = document.getElementById('input-1').value;
+    document.getElementById('customer_pickup_loc').innerText = document.getElementById('input-3').value;
+    document.getElementById('customer_drop_loc').innerText = document.getElementById('input-4').value;
+    document.getElementById('customer_pickup_time').innerText = document.getElementById('input-6').value;
+    document.getElementById('customer_number').innerText = document.getElementById('input-2').value;
+}
 document.addEventListener('DOMContentLoaded', function () {
     emailjs.init('fKdTn44q0lXV5IXY4');
 
@@ -59,12 +66,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     form.addEventListener('submit', function (event) {
         event.preventDefault();
-            alert('Email sent successfully!');
-                
+        showSuccessMessage();        
         /*emailjs.sendForm('service_x5onnnv', 'template_wn5q4ha', this)
             .then(function (response) {
                 console.log('SUCCESS!', response.status, response.text);
-                alert('Email sent successfully!');
+                showSuccessMessage();
             }, function (error) {
                 console.log('FAILED...', error);
                 alert('Error sending email. Please try again later.');

@@ -131,7 +131,7 @@
             <div class="input-wrapper">
               <label for="input-2" class="input-label">Mobile Number</label>
 
-              <input type="number" name="customer_number" id="input-2" class="input-field" placeholder="Mobile Number" pattern="^\d{10} ₹" required>
+              <input type="number" name="customer_number" id="input-2" class="input-field" placeholder="Mobile Number" pattern="^\d{10}$"  required>
             </div>
 
             <div class="input-wrapper">
@@ -161,9 +161,17 @@
             </div>
               
             <button type="submit" class="btn">Submit</button>
-            <button type="reset" class="btn btn-reset">Reset</button>
           </form>
-
+             <div class="input-wrapper-success">
+                <span>
+                    <ion-icon name="checkmark-circle-outline" class="inline-blk"></ion-icon> <span class="inline-blk">A New Drop Taxi booking has been submitted:<spa><br>
+                    <b>Customer Name :</b> <span id="customer_name" class="inline-blk"></span><br>
+                    <b>Pickup Location :</b> <span id="customer_pickup_loc" class="inline-blk"></span><br>
+                    <b>Drop-off Location :</b> <span id="customer_drop_loc" class="inline-blk"></span><br>
+                    <b>Pickup Time :</b> <span id="customer_pickup_time" class="inline-blk"></span><br>
+                    <b>Contact Number :</b> <span id="customer_number" class="inline-blk"></span>
+                </span>
+            </div>
         </div>
       </section>
 

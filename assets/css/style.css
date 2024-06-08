@@ -834,7 +834,23 @@ button, a { transition: var(--transition); }
 .copyright > a:is(:hover, :focus) { color: var(--carolina-blue); }
 
 
-
+input[type=number] {
+        -moz-appearance:textfield; /* Firefox */
+    }
+    .input-wrapper-success {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #28a745;
+        }
+        .input-wrapper-success ion-icon {
+         font-weight: bold; /* Not applicable, will use size */
+            font-size: 1.5em; /* Increased size to appear bolder */    
+    }
+    .inline-blk{
+        display: inline-block;
+    }
 
 
 /*-----------------------------------*\
@@ -1215,7 +1231,5 @@ button, a { transition: var(--transition); }
         margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
     }
 
-    input[type=number] {
-        -moz-appearance:textfield; /* Firefox */
-    }
+    
 }
