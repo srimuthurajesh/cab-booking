@@ -845,6 +845,7 @@ input[type=number] {
             color: #28a745;
         }
         .input-wrapper-success ion-icon {
+          margin-bottom: 114px;
          font-weight: bold; /* Not applicable, will use size */
             font-size: 1.5em; /* Increased size to appear bolder */    
     }
