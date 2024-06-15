@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Construct the message with placeholders replaced
             const messageText = `
-                Dear Admin,\n
-                A new drop taxi booking has been made. Here are the details:\n
+                Dear Admin,
+                A new drop taxi booking has been made. Here are the details:
                 Customer Name: ${customerName}
                 Pickup Location: ${customerPickupLoc}
                 Drop-off Location: ${customerDropLoc}
@@ -101,10 +101,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const urlEncodedMessage = encodeURIComponent(messageText);
 
         
-        console.log(messageText);return;
+        console.log(messageText);
             // Construct the URL for the Telegram API request
             const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}`;
-
+        console.log(url);
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
