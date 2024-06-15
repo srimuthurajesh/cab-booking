@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         console.log(messageText);return;
             // Construct the URL for the Telegram API request
-            const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}&parse_mode=Markdown`;
+            const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}`;
 
             fetch(url)
                 .then(response => response.json())
