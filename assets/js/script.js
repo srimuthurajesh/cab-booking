@@ -75,11 +75,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('FAILED...', error);
                 alert('Error sending email. Please try again later.');
             });*/
-         const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=<p>Dear {{email_name}},</p>
-<p>A new drop taxi booking has been made. Here are the details:</p>
-<p><strong>Customer Name :</strong> {{customer_name}}<br><strong>Pickup Location :</strong> {{customer_pickup_loc}}<br><strong>Drop-off Location :</strong>&nbsp;{{customer_drop_loc}}<br><strong>Pickup Time :</strong>&nbsp;{{customer_pickup_time}}<br><strong>Contact Number :</strong>&nbsp;{{customer_number}}</p>
-<p>Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.</p>
-<p><br><br>Thank you!<br><br>Best regards,&nbsp;<br>Drop taxi, chennai</p>`;
+        
+            const customerName = document.getElementById('customer_name').innerText;
+            const customerPickupLoc = document.getElementById('customer_pickup_loc').innerText;
+            const customerDropLoc = document.getElementById('customer_drop_loc').innerText;
+            const customerPickupTime = document.getElementById('customer_pickup_time').innerText;
+            const customerNumber = document.getElementById('customer_number').innerText;
+
+            // Construct the message with placeholders replaced
+            const messageText = `
+                Dear Admin,\n
+                A new drop taxi booking has been made. Here are the details:\n
+                Customer Name: ${customerName}
+                Pickup Location: ${customerPickupLoc}
+                Drop-off Location: ${customerDropLoc}
+                Pickup Time: ${customerPickupTime}
+                Contact Number: ${customerNumber}
+                Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
+                Thank you!\n
+                Best regards,
+                Drop taxi, Chennai
+            `;
+
+            // URL encode the message
+            const urlEncodedMessage = encodeURIComponent(messageText);
+
+        
+            console.log(messageText);
+            // Construct the URL for the Telegram API request
+            const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}&parse_mode=Markdown`;
 
             fetch(url)
                 .then(response => response.json())
@@ -93,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => {
                     console.error('Error:', error);
                 });
-        }
         
     });
 });
