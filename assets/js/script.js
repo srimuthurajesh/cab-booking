@@ -157,7 +157,30 @@ $(document).on('click', function(event) {
   event.stopPropagation();
 });
 // END //
+    
+ var autocomplete;
+ autocomplete = new google.maps.places.Autocomplete((document.getElementById('input-3')), {
+  types: ['geocode'],
+  /*componentRestrictions: {
+   country: "USA"
+  }*/
+ });
+  
+ google.maps.event.addListener(autocomplete, 'place_changed', function () {
+  document.getElementById('input-3').value = autocomplete.getPlace();
+ });
 
+    var autocomplete_drop;
+ autocomplete = new google.maps.places.Autocomplete((document.getElementById('input-4')), {
+  types: ['geocode'],
+  /*componentRestrictions: {
+   country: "USA"
+  }*/
+ });
+  
+ google.maps.event.addListener(autocomplete_drop, 'place_changed', function () {
+  document.getElementById('input-4').value = autocomplete.getPlace();
+ });
 
 });
 
