@@ -84,16 +84,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Construct the message with placeholders replaced
             const messageText = `
-                Dear Admin,\n
-            A new drop taxi booking has been made. Here are the details:\n
-            Customer Name: ${customerName}
-            Pickup Location: ${customerPickupLoc}
-            Drop-off Location: ${customerDropLoc}
-            Pickup Time: ${customerPickupTime}
-            Contact Number: ${customerNumber}
-            Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
-            Thank you!\n
-            Best regards,
+                Dear Admin,<br>
+            A new drop taxi booking has been made. Here are the details:<br><br>
+            Customer Name: ${customerName}<br>
+            Pickup Location: ${customerPickupLoc}<br>
+            Drop-off Location: ${customerDropLoc}<br>
+            Pickup Time: ${customerPickupTime}<br>
+            Contact Number: ${customerNumber}<br> <br>
+            Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.<br>
+            Thank you!<br>
+            Best regards,<br>
             Drop taxi, Chennai
             `;
 
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
             console.log(messageText);
             // Construct the URL for the Telegram API request
-            const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}&parse_mode=Markdown`;
+            const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}&parse_mode=html`;
 
             fetch(url)
                 .then(response => response.json())
