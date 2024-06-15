@@ -115,4 +115,16 @@ $(document).on('click', function(event) {
 });
 // END //
 
+
 });
+
+function populate(carType){
+  if(!carType)return;
+  $('.t-dropdown-input').val(carType);  
+   $('html, body').animate({
+        scrollTop: $('.t-dropdown-input').offset().top
+    }, 1, function() {
+        // Focus on the input field after scrolling
+        $('.t-dropdown-input').focus();
+    });
+}
