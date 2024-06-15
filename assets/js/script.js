@@ -85,16 +85,16 @@ document.addEventListener('DOMContentLoaded', function () {
             // Construct the message with placeholders replaced
             const messageText = `
                 Dear Admin,\n
-                A new drop taxi booking has been made. Here are the details:\n
-                Customer Name: ${customerName}
-                Pickup Location: ${customerPickupLoc}
-                Drop-off Location: ${customerDropLoc}
-                Pickup Time: ${customerPickupTime}
-                Contact Number: ${customerNumber}
-                Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
-                Thank you!\n
-                Best regards,
-                Drop taxi, Chennai
+            A new drop taxi booking has been made. Here are the details:\n
+            Customer Name: ${customerName}
+            Pickup Location: ${customerPickupLoc}
+            Drop-off Location: ${customerDropLoc}
+            Pickup Time: ${customerPickupTime}
+            Contact Number: ${customerNumber}
+            Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
+            Thank you!\n
+            Best regards,
+            Drop taxi, Chennai
             `;
 
             // URL encode the message
