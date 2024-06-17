@@ -21,7 +21,6 @@ const navToggleFunc = function () {
 }
 const inputTime = document.getElementById('input-6');
 inputTime.addEventListener('input', function() {
-    console.log("inside 24");
     const selectedDate = new Date(this.value);
     const currentDate = new Date();
     if (selectedDate.toDateString() === currentDate.toDateString()) {
@@ -161,9 +160,9 @@ $(document).on('click', function(event) {
  var autocomplete;
  autocomplete = new google.maps.places.Autocomplete((document.getElementById('input-3')), {
   types: ['geocode'],
-  /*componentRestrictions: {
-   country: "USA"
-  }*/
+  componentRestrictions: {
+   country: "IN"
+  }
  });
   
  google.maps.event.addListener(autocomplete, 'place_changed', function () {

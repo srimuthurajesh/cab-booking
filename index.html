@@ -133,7 +133,8 @@
             <div class="input-wrapper">
               <label for="input-2" class="input-label">Mobile Number</label>
 
-              <input type="number" name="customer_number" id="input-2" class="input-field" placeholder="Mobile Number" pattern="^\d{10}$"  required>
+              <input type="number" name="customer_number" id="input-2" class="input-field" placeholder="Mobile Number" maxlength='10' minlength='10'  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+    pattern="^\d{10}$"  required>
             </div>
 
             <div class="input-wrapper">
@@ -149,12 +150,12 @@
             <div class="input-wrapper">
               <label for="input-5" class="input-label">Pickup Date</label>
 
-              <input type="date" name="customer_pickup_date" id="input-5" class="input-field" placeholder="Add Pickup Address" required>
+              <input type="date" name="customer_pickup_date" id="input-5" class="input-field"  placeholder="Add Pickup Address" required onfocus="this.min=new Date().toISOString().split('T')[0]; this.max=new Date(new Date().setMonth(new Date().getMonth() + 6)).toISOString().split('T')[0]">
             </div>
             <div class="input-wrapper">
               <label for="input-6" class="input-label">Pickup Time</label>
 
-              <input type="time" name="customer_pickup_time" id="input-6" class="input-field" placeholder="Add Drop Address" step = '60' min="12:00" required>
+              <input type="time" name="customer_pickup_time" id="input-6" class="input-field" placeholder="Add Drop Address" step="60" min="12:00" required>
             </div>
             <div class="input-wrapper">
                 <label for="input-7" class="input-label">Cab Type</label>
