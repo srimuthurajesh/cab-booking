@@ -121,42 +121,114 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 $(document).ready(function(){
+const apiKey = 'CvBHxlan7n1vSlyPb4yJrb3DL0aSACdZotfvRdye';
+// Handle input for both pickup point and drop point to trigger API call
+$('.t-dropdown-input').on('input', function() {
+    const dropdownList = $(this).next('.t-dropdown-list');
+    const query = $(this).val().trim();
 
-//DropDown input - select
+    // Check which input is being used
+    if ($(this).attr('id') === 'pickup-point' || $(this).attr('id') === 'drop-point') {
+        console.log("Input detected for:", $(this).attr('id'));
+        
+        if (query.length > 2) {
+            // Call the appropriate fetch function based on the input
+            if ($(this).attr('id') === 'pickup-point') {
+                fetchPickupSuggestions(query);
+            } else if ($(this).attr('id') === 'drop-point') {
+                fetchDropSuggestions(query);
+            }
+        } else {
+            // Hide dropdown and add empty class to hide border
+            dropdownList.slideUp('fast').addClass('empty');
+        }
+    }
+});
+
+// Fetch suggestions for pickup point
+function fetchPickupSuggestions(query) {
+    fetch(`https://api.olamaps.io/places/v1/autocomplete?input=${query}&api_key=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "ok") {
+                updateDropdown($('#pickup-dropdown-list'), data.predictions);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching pickup point suggestions:', error);
+        });
+}
+
+// Fetch suggestions for drop point (dummy URL for example)
+function fetchDropSuggestions(query) {
+    fetch(`https://api.olamaps.io/places/v1/autocomplete?input=${query}&api_key=${apiKey}`) // Update with actual endpoint if different
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "ok") {
+                updateDropdown($('#drop-dropdown-list'), data.predictions);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching drop point suggestions:', error);
+        });
+}
+
+// Update the dropdown list with suggestions
+function updateDropdown(dropdownList, predictions) {
+    dropdownList.empty(); // Clear the existing list
+
+    if (predictions.length > 0) {
+        predictions.forEach(prediction => {
+            const listItem = $('<li class="t-dropdown-item"></li>').text(prediction.description);
+            dropdownList.append(listItem);
+        });
+        dropdownList.removeClass('empty'); // Remove empty class to show border
+        dropdownList.slideDown('fast', function() {
+            $(this).css('display', 'block'); // Ensures the display is set to block
+        });
+    } else {
+        dropdownList.addClass('empty'); // Add empty class if no predictions
+        dropdownList.slideUp('fast'); // Hide if no results
+    }
+}
+
+// Handle dropdown visibility for the clicked input
 $('.t-dropdown-input').on('click', function() {
-    console.log("been caled");
-	$('.t-dropdown-list').slideDown('fast');
+    const dropdownList = $(this).next('.t-dropdown-list');
+
+    // Close any other open dropdowns before opening the current one
+    $('.t-dropdown-list').not(dropdownList).slideUp('fast');
+
+    // Toggle the current dropdown
+    dropdownList.slideToggle('fast');
 });
 
-$('.t-select-btn').on('click', function() {
-   $('.t-dropdown-list').slideUp('fast');
+// Handle dropdown item selection
+$('.t-dropdown-list').on('click', 'li.t-dropdown-item', function() {
+    const selectedText = $(this).text();
+    const dropdownInput = $(this).closest('.input-wrapper').find('.t-dropdown-input');
+    dropdownInput.val(selectedText);
 
-	if(!$(this).prev().attr('disabled')){
-    $(this).prev().trigger('click');
-	}
+    // Close the dropdown after selection
+    dropdownInput.next('.t-dropdown-list').slideUp('fast').empty(); // Clear the list
 });
 
-//$('.t-dropdown-input').width($('.t-dropdown-select').width() - $('.t-select-btn').width() - 13);
+// Close dropdown if clicked outside
+$(document).on('click', function(event) {
+    if (!$(event.target).closest('.t-dropdown-input, .t-dropdown-list').length) {
+        // Close and clear both dropdowns if clicked outside
+        $('#pickup-dropdown-list').slideUp('fast').empty();
+        $('#drop-dropdown-list').slideUp('fast').empty();
+    }
+});
 
-//width for t-list
+// Set dynamic width for the dropdown list
 $('.t-dropdown-list').width($('.t-dropdown-input').width());
 
+// Clear the input field
 $('.t-dropdown-input').val('');
-
-$('li.t-dropdown-item').on('click', function() {
-  var text = $(this).html();
-  $('.t-dropdown-input').val(text);
-  $('.t-dropdown-list').slideUp('fast');
-});
-
-$(document).on('click', function(event) {
-  if ($(event.target).closest(".t-dropdown-input, .t-select-btn").length)
-    return;
-  $('.t-dropdown-list').slideUp('fast');
-  event.stopPropagation();
-});
 // END //
-    
+  /*  
  var autocomplete;
  autocomplete = new google.maps.places.Autocomplete((document.getElementById('input-3')), {
   types: ['geocode'],
@@ -172,14 +244,15 @@ $(document).on('click', function(event) {
     var autocomplete_drop;
  autocomplete = new google.maps.places.Autocomplete((document.getElementById('input-4')), {
   types: ['geocode'],
-  /*componentRestrictions: {
-   country: "USA"
-  }*/
+  //componentRestrictions: {
+   //country: "USA"
+  //}
  });
   
  google.maps.event.addListener(autocomplete_drop, 'place_changed', function () {
   document.getElementById('input-4').value = autocomplete.getPlace();
  });
+*/
 
 });
 

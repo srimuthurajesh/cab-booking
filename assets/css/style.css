@@ -866,6 +866,25 @@ input[type=number] {
   position: absolute;
   margin-top: 10px;
 }
+.t-dropdown-list.autocomplete {
+  display: none;
+  background-color: #FFF;
+  border: 1px solid #DDD;
+  z-index: 10;
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, .3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  position: absolute;
+  margin-top: 10px;
+  font-size: 12px; /* Smaller font size */
+  white-space: nowrap; /* Prevent text wrapping */
+  min-width: 100%; /* Minimum width as wide as the input */
+}
+.t-dropdown-list.autocomplete.empty {
+  border: none; /* Remove border when empty */
+}
 
 .t-dropdown-item {
   padding: 5px 20px;

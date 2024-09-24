@@ -139,13 +139,14 @@
 
             <div class="input-wrapper">
               <label for="input-3" class="input-label">Pickup Point</label>
-
-              <input type="text" name="customer_pickup_loc" id="input-3" class="input-field" placeholder="Add Pickup Point" required>
+                <input type="text" name="customer_pickup_loc" id="pickup-point" class="input-field t-dropdown-input" placeholder="Add Pickup Point" required autocomplete="off">
+                <ul id="pickup-dropdown-list" class="t-dropdown-list autocomplete"></ul>
             </div>
             <div class="input-wrapper">
               <label for="input-4" class="input-label">Drop Point</label>
 
-              <input type="text" name="customer_drop_loc" id="input-4" class="input-field" placeholder="Add Drop Point" required>
+              <input type="text" name="customer_drop_loc" id="drop-point" class="input-field t-dropdown-input" placeholder="Add Drop Point" required autocomplete="off">
+                 <ul id="drop-dropdown-list" class="t-dropdown-list autocomplete"></ul>
             </div>
             <div class="input-wrapper">
               <label for="input-5" class="input-label">Pickup Date</label>
