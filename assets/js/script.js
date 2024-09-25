@@ -198,7 +198,15 @@ $('.t-dropdown-input').on('click', function() {
 
     // Close any other open dropdowns before opening the current one
     $('.t-dropdown-list').not(dropdownList).slideUp('fast');
-
+   // Check if it's the pickup or drop point input
+    if ($(this).attr('id') === 'pickup-point' || $(this).attr('id') === 'drop-point') {
+        // If the dropdown is empty, add the 'empty' class
+        if (dropdownList.children('li').length === 0) {
+            dropdownList.addClass('empty');
+        } else {
+            dropdownList.removeClass('empty');
+        }
+    }
     // Toggle the current dropdown
     dropdownList.slideToggle('fast');
 });
@@ -208,7 +216,7 @@ $('.t-dropdown-list').on('click', 'li.t-dropdown-item', function() {
     const selectedText = $(this).text();
     const dropdownInput = $(this).closest('.input-wrapper').find('.t-dropdown-input');
     dropdownInput.val(selectedText);
-
+    console.log("d");
     // Close the dropdown after selection
     dropdownInput.next('.t-dropdown-list').slideUp('fast').empty(); // Clear the list
 });
