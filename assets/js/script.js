@@ -53,8 +53,8 @@ window.addEventListener("scroll", function () {
  function showSuccessMessage() {
     document.querySelector('.input-wrapper-success').style.display = 'flex';
     document.getElementById('customer_name').innerText = document.getElementById('input-1').value;
-    document.getElementById('customer_pickup_loc').innerText = document.getElementById('input-3').value;
-    document.getElementById('customer_drop_loc').innerText = document.getElementById('input-4').value;
+    document.getElementById('customer_pickup_loc').innerText = document.getElementById('pickup-point').value;
+    document.getElementById('customer_drop_loc').innerText = document.getElementById('drop-point').value;
     document.getElementById('customer_pickup_time').innerText = document.getElementById('input-6').value;
     document.getElementById('customer_number').innerText = document.getElementById('input-2').value;
 }
