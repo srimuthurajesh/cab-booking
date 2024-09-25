@@ -161,7 +161,8 @@ function fetchPickupSuggestions(query) {
 
 // Fetch suggestions for drop point (dummy URL for example)
 function fetchDropSuggestions(query) {
-    fetch(`https://api.olamaps.io/places/v1/autocomplete?input=${query}&api_key=${apiKey}`) // Update with actual endpoint if different
+    
+    fetch(`https://api.olamaps.io/places/v1/autocomplete?input=${query}&api_key=${apiKey}&components=country:IN`) // Update with actual endpoint if different
         .then(response => response.json())
         .then(data => {
             if (data.status === "ok") {
