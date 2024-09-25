@@ -134,9 +134,11 @@ $('.t-dropdown-input').on('input', function() {
         if (query.length > 2) {
             // Call the appropriate fetch function based on the input
             if ($(this).attr('id') === 'pickup-point') {
-                fetchPickupSuggestions(query);
+                    debouncedFetchPickupSuggestions(query); // Use debounced functio
+//                fetchPickupSuggestions(query);
             } else if ($(this).attr('id') === 'drop-point') {
-                fetchDropSuggestions(query);
+                debouncedFetchDropSuggestions(query);
+//                fetchDropSuggestions(query);
             }
         } else {
             // Hide dropdown and add empty class to hide border
@@ -144,6 +146,26 @@ $('.t-dropdown-input').on('input', function() {
         }
     }
 });
+// Debounce function to limit the rate of function execution
+function debounce(fn, delay) {
+    let timeoutID;
+    return function(...args) {
+        if (timeoutID) {
+            clearTimeout(timeoutID); // Clear the previous timeout if the function is called again
+        }
+        timeoutID = setTimeout(() => {
+            fn.apply(this, args); // Execute the function after the delay
+        }, delay);
+    };
+}
+const debouncedFetchPickupSuggestions = debounce(function(query) {
+    fetchPickupSuggestions(query);
+}, 300); // 300ms delay
+
+// Debounced version of the API call for drop point
+const debouncedFetchDropSuggestions = debounce(function(query) {
+    fetchDropSuggestions(query);
+}, 300); // 300ms delay
 
 // Fetch suggestions for pickup point
 function fetchPickupSuggestions(query) {
@@ -151,7 +173,8 @@ function fetchPickupSuggestions(query) {
         .then(response => response.json())
         .then(data => {
             if (data.status === "ok") {
-                updateDropdown($('#pickup-dropdown-list'), data.predictions);
+                let dropPointValue = $('#drop-point').val().trim();
+                updateDropdown($('#pickup-dropdown-list'), data.predictions, dropPointValue);
             }
         })
         .catch(error => {
@@ -166,7 +189,9 @@ function fetchDropSuggestions(query) {
         .then(response => response.json())
         .then(data => {
             if (data.status === "ok") {
-                updateDropdown($('#drop-dropdown-list'), data.predictions);
+                let pickupPointValue = $('#pickup-point').val().trim(); // Get the current value of pickup point
+
+                updateDropdown($('#drop-dropdown-list'), data.predictions, pickupPointValue);
             }
         })
         .catch(error => {
@@ -175,13 +200,15 @@ function fetchDropSuggestions(query) {
 }
 
 // Update the dropdown list with suggestions
-function updateDropdown(dropdownList, predictions) {
+function updateDropdown(dropdownList, predictions, otherFieldValue) {
     dropdownList.empty(); // Clear the existing list
 
     if (predictions.length > 0) {
         predictions.forEach(prediction => {
-            const listItem = $('<li class="t-dropdown-item"></li>').text(prediction.description);
-            dropdownList.append(listItem);
+            if (prediction.description !== otherFieldValue) {
+                const listItem = $('<li class="t-dropdown-item"></li>').text(prediction.description);
+                dropdownList.append(listItem);
+            }
         });
         dropdownList.removeClass('empty'); // Remove empty class to show border
         dropdownList.slideDown('fast', function() {
@@ -236,6 +263,43 @@ $('.t-dropdown-list').width($('.t-dropdown-input').width());
 
 // Clear the input field
 $('.t-dropdown-input').val('');
+    
+    //dropdown selecrted by key down and enter
+    let currentIndex = -1; // Tracks the index of the currently highlighted item
+    
+$('.t-dropdown-input').on('keydown', function(event) {
+    const dropdownList = $(this).next('.t-dropdown-list');
+    const items = dropdownList.find('li.t-dropdown-item');
+
+    if (dropdownList.is(':visible')) {
+        if (event.key === 'ArrowDown') {
+            // Move down in the list
+            event.preventDefault();
+            currentIndex++;
+            if (currentIndex >= items.length) currentIndex = 0;
+            highlightItem(items, currentIndex);
+        } else if (event.key === 'ArrowUp') {
+            // Move up in the list
+            event.preventDefault();
+            currentIndex--;
+            if (currentIndex < 0) currentIndex = items.length - 1;
+            highlightItem(items, currentIndex);
+        } else if (event.key === 'Enter') {
+            // Select the highlighted item
+            event.preventDefault();
+            if (currentIndex >= 0) {
+                const selectedItem = items.eq(currentIndex).text();
+                $(this).val(selectedItem); // Set the input value
+                dropdownList.slideUp('fast'); // Close the dropdown
+            }
+        }
+    }
+});
+function highlightItem(items, index) {
+    items.removeClass('highlight'); // Remove highlight from all items
+    items.eq(index).addClass('highlight'); // Highlight the current item
+}
+
 // END //
   /*  
  var autocomplete;

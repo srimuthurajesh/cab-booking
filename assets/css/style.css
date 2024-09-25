@@ -892,7 +892,7 @@ input[type=number] {
   cursor: pointer;
 }
 
-.t-dropdown-item:hover {
+.highlight, .t-dropdown-item:hover {
   background-color: #F1F1F1;
 }
 
