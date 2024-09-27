@@ -23,14 +23,18 @@ const navToggleFunc = function () {
 }
 const inputTime = document.getElementById('input-6');
 inputTime.addEventListener('input', function() {
-    const selectedDate = new Date(this.value);
-    const currentDate = new Date();
-    if (selectedDate.toDateString() === currentDate.toDateString()) {
-        const hours = currentDate.getHours().toString().padStart(2, '0');
-        const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-        inputTime.min = ` ₹{hours}: ₹{minutes}`;
+    const selectedTime = this.value;
+    const currentTime = new Date();
+    
+    const currentHours = currentTime.getHours().toString().padStart(2, '0');
+    const currentMinutes = currentTime.getMinutes().toString().padStart(2, '0');
+    const formattedCurrentTime = `${currentHours}:${currentMinutes}`;
+    
+    // Ensure the min time is set dynamically if the current time is today
+    if (this.value && new Date().toDateString() === currentTime.toDateString()) {
+        inputTime.min = formattedCurrentTime;
     } else {
-        inputTime.min = null; // Allow any time if the date is not the current date
+        inputTime.min = '12:00'; // Default min time
     }
 });
 navToggleBtn.addEventListener("click", navToggleFunc);
