@@ -21,22 +21,31 @@ const navToggleFunc = function () {
   navbar.classList.toggle("active");
   overlay.classList.toggle("active");
 }
-const inputTime = document.getElementById('input-6');
-inputTime.addEventListener('input', function() {
-    const selectedTime = this.value;
-    const currentTime = new Date();
-    
-    const currentHours = currentTime.getHours().toString().padStart(2, '0');
-    const currentMinutes = currentTime.getMinutes().toString().padStart(2, '0');
-    const formattedCurrentTime = `${currentHours}:${currentMinutes}`;
-    
-    // Ensure the min time is set dynamically if the current time is today
-    if (this.value && new Date().toDateString() === currentTime.toDateString()) {
-        inputTime.min = formattedCurrentTime;
+const dateInput = document.getElementById('input-5');
+const timeInput = document.getElementById('input-6');
+const timeError = document.getElementById('time-error');
+
+function validateTime() {
+    const today = new Date();
+    const selectedDate = new Date(dateInput.value);
+    const currentTime = today.toTimeString().split(":").slice(0, 2).join(":");
+
+    // If date is today, restrict the time to be after the current time
+    if (selectedDate.toDateString() === today.toDateString()) {
+      if (timeInput.value && timeInput.value <= currentTime) {
+        timeInput.setCustomValidity('Please choose the time later than now');
+      } else {
+        timeInput.setCustomValidity('');
+      }
     } else {
-        inputTime.min = '12:00'; // Default min time
+      timeInput.setCustomValidity('');
     }
-});
+}
+// Listen for changes in date and time fields
+dateInput.addEventListener('change', validateTime);
+timeInput.addEventListener('change', validateTime);
+
+
 navToggleBtn.addEventListener("click", navToggleFunc);
 overlay.addEventListener("click", navToggleFunc);
 
@@ -67,72 +76,99 @@ window.addEventListener("scroll", function () {
 function constructGoogleMapsLink(lat, lng) {
     return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 }
-document.addEventListener('DOMContentLoaded', function () {
-    emailjs.init('fKdTn44q0lXV5IXY4');
+function sendEmail(thisObj){
+  /*emailjs.sendForm('service_x5onnnv', 'template_wn5q4ha', thisObj)
+        .then(function (response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showSuccessMessage();
+        }, function (error) {
+            console.log('FAILED...', error);
+            alert('Error sending email. Please try again later.');
+        });*/
+}
+function getDistanceBetweenPoints(pickupCoords, dropCoords, callback) {
+    const url = `https://api.olamaps.io/routing/v1/distanceMatrix?origins=${pickupCoords.lat},${pickupCoords.lng}&destinations=${dropCoords.lat},${dropCoords.lng}&mode=driving&api_key=${apiKey}`;
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.rows && data.rows.length > 0 && data.rows[0] && data.rows[0].elements && data.rows[0].elements.length > 0) {
+                const distance = data.rows[0].elements[0].distance; // distance in meters
+                callback(distance / 1000); // Convert to kilometers
+            } else {
+                console.error('No routes found');
+                callback(null);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching distance:', error);
+            callback(null);
+        });
+}
 
-    const form = document.getElementById('hero-form');
-    
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        showSuccessMessage();        
-        /*emailjs.sendForm('service_x5onnnv', 'template_wn5q4ha', this)
-            .then(function (response) {
-                console.log('SUCCESS!', response.status, response.text);
-                showSuccessMessage();
-            }, function (error) {
-                console.log('FAILED...', error);
-                alert('Error sending email. Please try again later.');
-            });*/
-        
-            const customerName = document.getElementById('customer_name').innerText;
-            const customerPickupLoc = document.getElementById('customer_pickup_loc').innerText;
-            const customerDropLoc = document.getElementById('customer_drop_loc').innerText;
-            const customerPickupTime = document.getElementById('customer_pickup_time').innerText;
-            const customerNumber = document.getElementById('customer_number').innerText;
-            const pickupMapLink = constructGoogleMapsLink(pickupCoords.lat, pickupCoords.lng);
-            const dropMapLink = constructGoogleMapsLink(dropCoords.lat, dropCoords.lng);
+function sendTelegramMsg(){
+    const customerName = document.getElementById('customer_name').innerText;
+    const customerPickupLoc = document.getElementById('customer_pickup_loc').innerText;
+    const customerDropLoc = document.getElementById('customer_drop_loc').innerText;
+    const customerPickupTime = document.getElementById('customer_pickup_time').innerText;
+    const customerNumber = document.getElementById('customer_number').innerText;
+    const pickupMapLink = constructGoogleMapsLink(pickupCoords.lat, pickupCoords.lng);
+    const dropMapLink = constructGoogleMapsLink(dropCoords.lat, dropCoords.lng);
 
 
-            // Construct the message with placeholders replaced
-            const messageText = `
-                Dear Admin,
-                A new drop taxi booking has been made. Here are the details:
-                Customer Name: ${customerName}
-                Pickup Location: [${customerPickupLoc}](${pickupMapLink})
-                Drop-off Location: [${customerDropLoc}](${dropMapLink})     
-                Pickup Time: ${customerPickupTime}
-                Contact Number: ${customerNumber}
-                Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
-                Thank you!
-                Best regards,\n
-                Drop taxi, Chennai
+    getDistanceBetweenPoints(pickupCoords, dropCoords, function (distance) {
+   
+        // Construct the message with placeholders replaced
+        const messageText = `
+            Dear Admin,
+            A new drop taxi booking has been made. Here are the details:
+            Customer Name: ${customerName}
+            Pickup Location: [${customerPickupLoc}](${pickupMapLink})
+            Drop-off Location: [${customerDropLoc}](${dropMapLink})     
+            Pickup Time: ${customerPickupTime}
+            Total Distance: ${distance} km
+            Contact Number: ${customerNumber} 
+            Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
+            Thank you!
+            Best regards,\n
+            Drop taxi, Chennai
             `;
 
-            // URL encode the message
-            const urlEncodedMessage = encodeURIComponent(messageText);
+        // URL encode the message
+        const urlEncodedMessage = encodeURIComponent(messageText);
 
-        
+
         console.log(messageText);
-            // Construct the URL for the Telegram API request
-            const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}`;
+        // Construct the URL for the Telegram API request
+        const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}`;
         console.log(url);
-         /*   fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        console.log('Message sent successfully:', data);
-                    } else {
-                        console.error('Error sending message:', data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        */
-    });
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                console.log('Message sent successfully:', data);
+            } else {
+                console.error('Error sending message:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        
+     });    
+}
+emailjs.init('fKdTn44q0lXV5IXY4');
+document.getElementById('hero-form').addEventListener('submit', function (event) {   
+    event.preventDefault(); // Prevent form submission
+    showSuccessMessage();        
+    sendEmail(this);
+    sendTelegramMsg();
 });
 
-$(document).ready(function(){
     
 const apiKey = 'CvBHxlan7n1vSlyPb4yJrb3DL0aSACdZotfvRdye';
 // Handle input for both pickup point and drop point to trigger API call
@@ -144,14 +180,12 @@ $('.t-dropdown-input').on('input', function() {
     if ($(this).attr('id') === 'pickup-point' || $(this).attr('id') === 'drop-point') {
         console.log("Input detected for:", $(this).attr('id'));
         
-        if (query.length > 2) {
+        if (query.length > 1) {
             // Call the appropriate fetch function based on the input
             if ($(this).attr('id') === 'pickup-point') {
                     debouncedFetchPickupSuggestions(query); // Use debounced functio
-//                fetchPickupSuggestions(query);
             } else if ($(this).attr('id') === 'drop-point') {
                 debouncedFetchDropSuggestions(query);
-//                fetchDropSuggestions(query);
             }
         } else {
             // Hide dropdown and add empty class to hide border
@@ -354,7 +388,6 @@ function highlightItem(items, index) {
  });
 */
 
-});
 
 function populate(carType){
   if(!carType)return;
