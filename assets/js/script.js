@@ -15,6 +15,9 @@ const month = (now.getMonth() + 1).toString().padStart(2, '0');
 const day = now.getDate().toString().padStart(2, '0');
 let pickupCoords = {};
 let dropCoords = {};
+let roundTripValue = 'No';
+let formattedPickupTime='';
+let formattedDate='';
 inputDate.min = ` ₹{year}- ₹{month}- ₹{day}`;
 const navToggleFunc = function () {
   navToggleBtn.classList.toggle("active");
@@ -70,8 +73,10 @@ window.addEventListener("scroll", function () {
     document.getElementById('customer_name').innerText = document.getElementById('input-1').value;
     document.getElementById('customer_pickup_loc').innerText = document.getElementById('pickup-point').value;
     document.getElementById('customer_drop_loc').innerText = document.getElementById('drop-point').value;
-    document.getElementById('customer_pickup_time').innerText = document.getElementById('input-6').value;
+    document.getElementById('customer_pickup_time').innerText = formattedDate+" "+formattedPickupTime;
     document.getElementById('customer_number').innerText = document.getElementById('input-2').value;
+    document.getElementById('cab_type').innerText = document.getElementById('input-7').value;
+    document.getElementById('round_trip').innerText = roundTripValue;
 }
 function constructGoogleMapsLink(lat, lng) {
     return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
@@ -86,6 +91,28 @@ function sendEmail(thisObj){
             alert('Error sending email. Please try again later.');
         });*/
 }
+function formateDate(date){
+    const [year, month, day] = date.split('-');
+    return `${day}-${month}-${year}`;
+}
+function convertTo12HourFormat(time) {
+    if(!time)return;
+    let [hours, minutes] = time.split(':');
+    let period = 'AM';
+
+    hours = parseInt(hours);
+
+    if (hours >= 12) {
+        period = 'PM';
+        if (hours > 12) hours -= 12;
+    } else if (hours === 0) {
+        hours = 12; // Midnight edge case
+    }
+
+    return `${hours}:${minutes} ${period}`;
+}
+
+
 function getDistanceBetweenPoints(pickupCoords, dropCoords, callback) {
     const url = `https://api.olamaps.io/routing/v1/distanceMatrix?origins=${pickupCoords.lat},${pickupCoords.lng}&destinations=${dropCoords.lat},${dropCoords.lng}&mode=driving&api_key=${apiKey}`;
     fetch(url)
@@ -114,24 +141,30 @@ function sendTelegramMsg(){
     const customerName = document.getElementById('customer_name').innerText;
     const customerPickupLoc = document.getElementById('customer_pickup_loc').innerText;
     const customerDropLoc = document.getElementById('customer_drop_loc').innerText;
-    const customerPickupTime = document.getElementById('customer_pickup_time').innerText;
     const customerNumber = document.getElementById('customer_number').innerText;
     const pickupMapLink = constructGoogleMapsLink(pickupCoords.lat, pickupCoords.lng);
     const dropMapLink = constructGoogleMapsLink(dropCoords.lat, dropCoords.lng);
-
-
+    const pickupTime = document.getElementById('customer_pickup_time').innerText;
+    const cabType = document.getElementById('cab_type').innerText;
+    
     getDistanceBetweenPoints(pickupCoords, dropCoords, function (distance) {
    
         // Construct the message with placeholders replaced
         const messageText = `
             Dear Admin,
             A new drop taxi booking has been made. Here are the details:
-            Customer Name: ${customerName}
-            Pickup Location: [${customerPickupLoc}](${pickupMapLink})
-            Drop-off Location: [${customerDropLoc}](${dropMapLink})     
-            Pickup Time: ${customerPickupTime}
-            Total Distance: ${distance} km
-            Contact Number: ${customerNumber} 
+           
+            Customer Name: ${customerName}  
+            Contact Number: ${customerNumber}  
+            Pickup Location: ${customerPickupLoc}  
+            Pickup Map Link: ${pickupMapLink}  
+            Drop Location: ${customerDropLoc}  
+            Drop Map Link: ${dropMapLink}  
+            Pickup Date/Time: ${pickupTime}  
+            Cab Type: ${cabType}
+            Total Distance: ${distance.toFixed(1)} km  
+            Round Trip: ${roundTripValue}  
+            
             Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
             Thank you!
             Best regards,\n
@@ -164,9 +197,13 @@ function sendTelegramMsg(){
 emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
     event.preventDefault(); // Prevent form submission
+    formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
+    formattedDate = formateDate(document.getElementById("input-5").value);
+    console.log(this);
     showSuccessMessage();        
     sendEmail(this);
     sendTelegramMsg();
+    this.reset();
 });
 
     
@@ -269,6 +306,8 @@ function updateDropdown(dropdownList, predictions, otherFieldValue, fieldType) {
                         };
                     }
                 });
+                listItem.data('lat', prediction.geometry.location.lat);
+                listItem.data('lng', prediction.geometry.location.lng);
             }
         });
         dropdownList.removeClass('empty'); // Remove empty class to show border
@@ -316,6 +355,8 @@ $(document).on('click', function(event) {
         // Close and clear both dropdowns if clicked outside
         $('#pickup-dropdown-list').slideUp('fast').empty();
         $('#drop-dropdown-list').slideUp('fast').empty();
+        console.log($('#t-dropdown-list'));
+        $('#t-dropdown-list').slideUp('fast').empty();
     }
 });
 
@@ -346,11 +387,26 @@ $('.t-dropdown-input').on('keydown', function(event) {
             if (currentIndex < 0) currentIndex = items.length - 1;
             highlightItem(items, currentIndex);
         } else if (event.key === 'Enter') {
+             
             // Select the highlighted item
             event.preventDefault();
             if (currentIndex >= 0) {
-                const selectedItem = items.eq(currentIndex).text();
-                $(this).val(selectedItem); // Set the input value
+                const selectedItem = items.eq(currentIndex);
+                if($(this).attr('id')==="pickup-point"){
+                    pickupCoords = {
+                        lat: selectedItem.data('lat'),
+                        lng: selectedItem.data('lng')
+                    };
+                }else if($(this).attr('id')==="drop-point"){
+                    dropCoords = {
+                        lat: selectedItem.data('lat'),
+                        lng: selectedItem.data('lng')
+                    };    
+                }
+                console.log(pickupCoords);
+                console.log(dropCoords);
+                
+                $(this).val(selectedItem.text()); // Set the input value    
                 dropdownList.slideUp('fast'); // Close the dropdown
             }
         }
@@ -391,11 +447,15 @@ function highlightItem(items, index) {
 
 function populate(carType){
   if(!carType)return;
-  $('.t-dropdown-input').val(carType);  
+  $('.cartype').val(carType);  
    $('html, body').animate({
         scrollTop: $('.t-dropdown-input').offset().top
     }, 1, function() {
-        // Focus on the input field after scrolling
         $('.t-dropdown-input').focus();
     });
 }
+
+document.getElementById('round-trip').addEventListener('change', function() {
+    roundTripValue = this.checked ? 'Yes' : 'No';
+    console.log('Round Trip:', roundTripValue);
+});

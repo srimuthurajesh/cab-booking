@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jafar - Rent your favourite car</title>
+  <title>Moon Drop Taxi</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- 
@@ -127,14 +127,14 @@
               <label for="input-1" class="input-label">Enter Name</label>
 
               <input type="text" pattern="^[a-zA-Z\s]+$" required name="customer_name" id="input-1" class="input-field"
-                placeholder="Your Full Name" title="Full name must contain only letters and spaces">
+                placeholder="Your Full Name" title="Full name must contain only letters and spaces" autocomplete="off">
             </div>
 
             <div class="input-wrapper">
               <label for="input-2" class="input-label">Mobile Number</label>
 
               <input type="number" name="customer_number" id="input-2" class="input-field" placeholder="Mobile Number" maxlength='10' minlength='10'  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-    pattern="^\d{10}$"  required>
+    pattern="^\d{10}$"  required autocomplete="off">
             </div>
 
             <div class="input-wrapper">
@@ -160,7 +160,7 @@
             </div>
             <div class="input-wrapper">
                 <label for="input-7" class="input-label">Cab Type</label>
-              <input type="text" name="cab_type" id="input-7" class="input-field t-dropdown-input" placeholder="Select cab type" required>
+              <input type="text" name="cab_type" id="input-7" class="input-field t-dropdown-input cartype" placeholder="Select cab type" required autocomplete="off">
                  <!--<span class="t-select-btn">
                   </span>-->
                   <ul class="t-dropdown-list">
@@ -171,17 +171,27 @@
                 </ul>
                 
             </div>
-              
-            <button type="submit" class="btn">Submit</button>
+             <div class="input-wrapper">
+               <label for="input-7" class="input-label">Trip Type</label>
+                <div class="inline-elements">
+                    <span>Round trip</span>
+                    <input type="checkbox" style="width:10%" id="round-trip" name="round_trip">
+                </div>
+            </div>  
+            <button type="submit" class="btn submit-btn">Submit</button>
           </form>
              <div class="input-wrapper-success">
                 <span>
                     <ion-icon name="checkmark-circle-outline" class="inline-blk"></ion-icon> <span class="inline-blk">A New Drop Taxi booking has been submitted:</span><br>
+                    <p class="blk">
                     <b>Customer Name :</b> <span id="customer_name" class="inline-blk"></span><br>
+                    <b>Contact Number :</b> <span id="customer_number" class="inline-blk"></span><br>
+                    <b>Cab Type :</b> <span id="cab_type" class="inline-blk"></span><br>
                     <b>Pickup Location :</b> <span id="customer_pickup_loc" class="inline-blk"></span><br>
                     <b>Drop-off Location :</b> <span id="customer_drop_loc" class="inline-blk"></span><br>
-                    <b>Pickup Time :</b> <span id="customer_pickup_time" class="inline-blk"></span><br>
-                    <b>Contact Number :</b> <span id="customer_number" class="inline-blk"></span>
+                    <b>Round Type :</b> <span id="round_trip" class="inline-blk"></span><br>
+                    <b>Pickup Date/Time :</b> <span id="customer_pickup_time" class="inline-blk"></span><br>
+                    </p>
                 </span>
             </div>
         </div>
@@ -209,77 +219,11 @@
           </div>
 
           <ul class="featured-car-list">
-
             <li>
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-1.png" alt="Toyota RAV4 2021" loading="lazy" width="440" height="300"
-                    class="w-100 mirror">
-                </figure>
-
-                <div class="card-content">
-
-                  <div class="card-title-wrapper">
-                    <h3 class="h3 card-title">
-                      <a href="#">Maruti Swift Dzire</a>
-                    </h3>
-
-                    <data class="year" value="2021">2021</data>
-                  </div>
-
-                  <ul class="card-list">
-
-                    <li class="card-list-item">
-                      <ion-icon name="people-outline"></ion-icon>
-
-                      <span class="card-item-text">4 People</span>
-                    </li>
-
-                    <li class="card-list-item">
-                      <ion-icon name="flash-outline"></ion-icon>
-
-                      <span class="card-item-text">Pertol</span>
-                    </li>
-
-                    <li class="card-list-item">
-                      <ion-icon name="speedometer-outline"></ion-icon>
-
-                      <span class="card-item-text">6.1km / 1-litre</span>
-                    </li>
-
-                    <li class="card-list-item">
-                      <ion-icon name="hardware-chip-outline"></ion-icon>
-
-                      <span class="card-item-text">Automatic</span>
-                    </li>
-
-                  </ul>
-
-                  <div class="card-price-wrapper">
-
-                    <p class="card-price">
-                      <strong> ₹13</strong> / km
-                    </p>
-
-                    <button class="btn fav-btn" aria-label="Add to favourite list">
-                      <ion-icon name="heart-outline"></ion-icon>
-                    </button>
-
-                    <button class="btn" onClick='populate("Hatchback")'>Book now</button>
-
-                  </div>
-
-                </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="featured-car-card">
-
-                <figure class="card-banner">
-                  <img src="./assets/images/car-2.png" alt="BMW 3 Series 2019" loading="lazy" width="440" height="300"
+                  <img src="./assets/images/car-2.webp" alt="BMW 3 Series 2019" loading="lazy" width="440" height="300"
                     class="w-100">
                 </figure>
 
@@ -287,7 +231,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">Indica</a>
+                      <a href="#">Ethios</a>
                     </h3>
 
                     <data class="year" value="2019">2019</data>
@@ -324,7 +268,72 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong> ₹9</strong> / km
+                      <strong> ₹15</strong> / km
+                    </p>
+
+                    <button class="btn fav-btn" aria-label="Add to favourite list">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn" onClick='populate("Sedan")'>Book now</button>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </li>
+  
+            <li>
+              <div class="featured-car-card">
+
+                <figure class="card-banner">
+                  <img src="./assets/images/car-1.jpg" alt="Toyota RAV4 2021" loading="lazy" width="440" height="300"
+                    class="w-100">
+                </figure>
+
+                <div class="card-content">
+
+                  <div class="card-title-wrapper">
+                    <h3 class="h3 card-title">
+                      <a href="#">Swift</a>
+                    </h3>
+
+                    <data class="year" value="2021">2021</data>
+                  </div>
+
+                  <ul class="card-list">
+
+                    <li class="card-list-item">
+                      <ion-icon name="people-outline"></ion-icon>
+
+                      <span class="card-item-text">4 People</span>
+                    </li>
+
+                    <li class="card-list-item">
+                      <ion-icon name="flash-outline"></ion-icon>
+
+                      <span class="card-item-text">Pertol</span>
+                    </li>
+
+                    <li class="card-list-item">
+                      <ion-icon name="speedometer-outline"></ion-icon>
+
+                      <span class="card-item-text">6.1km / 1-litre</span>
+                    </li>
+
+                    <li class="card-list-item">
+                      <ion-icon name="hardware-chip-outline"></ion-icon>
+
+                      <span class="card-item-text">Automatic</span>
+                    </li>
+
+                  </ul>
+
+                  <div class="card-price-wrapper">
+
+                    <p class="card-price">
+                      <strong> ₹14</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
@@ -339,7 +348,72 @@
 
               </div>
             </li>
+            <li>
+              <div class="featured-car-card">
 
+                <figure class="card-banner">
+                  <img src="./assets/images/car-4.webp" alt="Cadillac Escalade 2020" loading="lazy" width="440"
+                    height="300" class="w-100">
+                </figure>
+
+                <div class="card-content">
+
+                  <div class="card-title-wrapper">
+                    <h3 class="h3 card-title">
+                      <a href="#">Xcent</a>
+                    </h3>
+
+                    <data class="year" value="2020">2020</data>
+                  </div>
+
+                  <ul class="card-list">
+
+                    <li class="card-list-item">
+                      <ion-icon name="people-outline"></ion-icon>
+
+                      <span class="card-item-text">4 People</span>
+                    </li>
+
+                    <li class="card-list-item">
+                      <ion-icon name="flash-outline"></ion-icon>
+
+                      <span class="card-item-text">Petrol</span>
+                    </li>
+
+                    <li class="card-list-item">
+                      <ion-icon name="speedometer-outline"></ion-icon>
+
+                      <span class="card-item-text">7.7km / 1-litre</span>
+                    </li>
+
+                    <li class="card-list-item">
+                      <ion-icon name="hardware-chip-outline"></ion-icon>
+
+                      <span class="card-item-text">Automatic</span>
+                    </li>
+
+                  </ul>
+
+                  <div class="card-price-wrapper">
+
+                    <p class="card-price">
+                      <strong> ₹14</strong> / km
+                    </p>
+
+                    <button class="btn fav-btn" aria-label="Add to favourite list">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                    <button class="btn" onClick='populate("Sedan")'>Book now</button>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </li>
+    
+            
             <li>
               <div class="featured-car-card">
 
@@ -389,71 +463,6 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong> ₹18</strong> / km
-                    </p>
-
-                    <button class="btn fav-btn" aria-label="Add to favourite list">
-                      <ion-icon name="heart-outline"></ion-icon>
-                    </button>
-
-                    <button class="btn" onClick='populate("7 Seater or Innova ")'>Book now</button>
-
-                  </div>
-
-                </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="featured-car-card">
-
-                <figure class="card-banner">
-                  <img src="./assets/images/car-4.webp" alt="Cadillac Escalade 2020" loading="lazy" width="440"
-                    height="300" class="w-100">
-                </figure>
-
-                <div class="card-content">
-
-                  <div class="card-title-wrapper">
-                    <h3 class="h3 card-title">
-                      <a href="#">Hyundai Xcent</a>
-                    </h3>
-
-                    <data class="year" value="2020">2020</data>
-                  </div>
-
-                  <ul class="card-list">
-
-                    <li class="card-list-item">
-                      <ion-icon name="people-outline"></ion-icon>
-
-                      <span class="card-item-text">4 People</span>
-                    </li>
-
-                    <li class="card-list-item">
-                      <ion-icon name="flash-outline"></ion-icon>
-
-                      <span class="card-item-text">Petrol</span>
-                    </li>
-
-                    <li class="card-list-item">
-                      <ion-icon name="speedometer-outline"></ion-icon>
-
-                      <span class="card-item-text">7.7km / 1-litre</span>
-                    </li>
-
-                    <li class="card-list-item">
-                      <ion-icon name="hardware-chip-outline"></ion-icon>
-
-                      <span class="card-item-text">Automatic</span>
-                    </li>
-
-                  </ul>
-
-                  <div class="card-price-wrapper">
-
-                    <p class="card-price">
                       <strong> ₹20</strong> / km
                     </p>
 
@@ -461,7 +470,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("Hatchback")'>Book now</button>
+                    <button class="btn" onClick='populate("7 Seater or Innova")'>Book now</button>
 
                   </div>
 
@@ -470,11 +479,12 @@
               </div>
             </li>
 
+            
             <li>
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-5.jpg" alt="BMW 4 Series GTI 2021" loading="lazy" width="440"
+                  <img src="./assets/images/car-5.webp" alt="BMW 4 Series GTI 2021" loading="lazy" width="440"
                     height="300" class="w-100">
                 </figure>
 
@@ -482,7 +492,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">Xylo</a>
+                      <a href="#">Innova Crysta</a>
                     </h3>
 
                     <data class="year" value="2021">2021</data>
@@ -526,7 +536,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("SUV/MPV")'>Book now</button>
+                    <button class="btn" onClick='populate("7 Seater or Innova")'>Book now</button>
 
                   </div>
 
@@ -539,7 +549,7 @@
               <div class="featured-car-card">
 
                 <figure class="card-banner">
-                  <img src="./assets/images/car-6.jpeg" alt="BMW 4 Series 2019" loading="lazy" width="440" height="300"
+                  <img src="./assets/images/car-6.webp" alt="BMW 4 Series 2019" loading="lazy" width="440" height="300"
                     class="w-100">
                 </figure>
 
@@ -547,7 +557,7 @@
 
                   <div class="card-title-wrapper">
                     <h3 class="h3 card-title">
-                      <a href="#">Maruthi Ertiga</a>
+                      <a href="#">Any Other SUV</a>
                     </h3>
 
                     <data class="year" value="2019">2019</data>
@@ -584,14 +594,14 @@
                   <div class="card-price-wrapper">
 
                     <p class="card-price">
-                      <strong> ₹25</strong> / km
+                      <strong> ₹19</strong> / km
                     </p>
 
                     <button class="btn fav-btn" aria-label="Add to favourite list">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("7 Seater or Innova")'>Book now</button>
+                    <button class="btn" onClick='populate("SUV/MPV")'>Book now</button>
 
                   </div>
 

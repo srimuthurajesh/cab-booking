@@ -852,7 +852,9 @@ input[type=number] {
         margin-bottom: -6px;
         display: inline-block;
     }
-
+.blk{
+    color: black
+}
 .t-dropdown-list {
   display: none;
   background-color: #FFF;
@@ -1302,5 +1304,67 @@ input[type=number] {
         margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
     }
 
+    .inline-elements input[type="checkbox"] {
+        margin-left: 5px; /* Adjust the space if needed */
+    }
+    .submit-btn {
+        grid-column: 4 / span 1; /* Puts it in the fourth column */
+        align-self: center; /* Vertically center the button if needed */
+    }
     
+}
+
+    .inline-elements {
+        display: flex;
+        align-items: center;
+        gap: 5px; /* Adds space between the text and the checkbox */
+    }
+
+
+
+
+
+
+
+
+
+.input-wrapper-success {
+    background-color: #e6f7e6; /* Light green background */
+    color: #2c662d; /* Dark green text */
+    border: 2px solid #4caf50; /* Green border */
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.input-wrapper-success .inline-blk {
+    display: inline-block;
+}
+
+.input-wrapper-success .blk {
+    margin-top: 10px;
+}
+
+.input-wrapper-success b {
+    color: #2c662d;
+}
+
+input-wrapper-success ion-icon {
+    font-size: 24px;
+    color: #4caf50; /* Icon in green */
+    vertical-align: middle;
+}
+
+#customer_name,
+#customer_number,
+#customer_pickup_loc,
+#customer_drop_loc,
+#round_trip,
+#cab_type,
+#customer_pickup_time {
+    color: #2c662d;
 }
