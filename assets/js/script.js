@@ -168,7 +168,7 @@ function sendTelegramMsg(){
             Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
             Thank you!
             Best regards,\n
-            Drop taxi, Chennai
+            Moon Drop taxi, Chennai
             `;
 
         // URL encode the message
