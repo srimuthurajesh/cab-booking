@@ -345,8 +345,11 @@ $('.t-dropdown-list').on('click', 'li.t-dropdown-item', function() {
     const dropdownInput = $(this).closest('.input-wrapper').find('.t-dropdown-input');
     dropdownInput.val(selectedText);
     console.log("d");
-    // Close the dropdown after selection
-    dropdownInput.next('.t-dropdown-list').slideUp('fast').empty(); // Clear the list
+   if (dropdownInput.attr('id') === 'pickup-point' || dropdownInput.attr('id') === 'drop-point') {
+        dropdownInput.next('.t-dropdown-list').slideUp('fast').empty(); // Clear the list
+    } else {
+        dropdownInput.next('.t-dropdown-list').slideUp('fast'); // Just close for other inputs
+    }
 });
 
 // Close dropdown if clicked outside
