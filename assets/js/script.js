@@ -169,7 +169,11 @@ function getDistanceBetweenPoints(pickupCoords, dropCoords, callback) {
             if (data.rows && data.rows.length > 0 && data.rows[0] && data.rows[0].elements && data.rows[0].elements.length > 0) {
                 distance = data.rows[0].elements[0].distance; // distance in meters
                 distance = distance?distance/1000:0;
-                distance = distance.toFixed(1);
+                if (distance % 1 === 0) {
+                    distance = distance.toFixed(0); // No decimal places
+                } else {
+                    distance = distance.toFixed(1); // One decimal place
+                }
                 callback(); // Convert to kilometers
             } else {
                 console.error('No routes found');
