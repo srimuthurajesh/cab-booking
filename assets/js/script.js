@@ -71,15 +71,29 @@ window.addEventListener("scroll", function () {
     : header.classList.remove("active");
 });
 function calculateFare(){
-    let cabType = document.getElementById('input-7').value;
     let pickupPoint = document.getElementById("pickup-point").value;
     let dropPoint = document.getElementById("drop-point").value;
-    let roundTrip = document.getElementById("round-trip").value; 
-    if(!(cabType && pickupPoint && dropPoint && roundTrip)){
+    if(!(pickupPoint && dropPoint)){
         return;
     }
-    getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {
-         let ratePerKm;
+    getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {   
+        const dropInput = document.getElementById("drop-point");
+        const currentValidityMessage = dropInput.validationMessage;
+        if(roundTripValue!="Yes" && distance < 100 && currentValidityMessage!="Single trip must be at least 100 km"){
+                dropInput.setCustomValidity("Single trip must be at least 100 km");
+                dropInput.reportValidity();    
+                return 
+        }
+        if(roundTripValue=="Yes" && distance < 250 && currentValidityMessage!="Round trip must be at least 250 km"){
+            dropInput.setCustomValidity("Round trip must be at least 250 km");
+            dropInput.reportValidity();    
+            return 
+        }
+        let cabType = document.getElementById('input-7').value;
+        if(!cabType){
+            return;
+        }
+        let ratePerKm;
 
         switch (cabType) {
             case 'Hatchback(Rs.14/km)':
@@ -102,6 +116,8 @@ function calculateFare(){
                 return 0; // Return 0 if the car type is not recognized
         }
         let driverBetta = distance>400?500:300;
+        if(roundTripValue=="Yes")
+            ratePerKm = ratePerKm-1;
         let totalfare = (distance * ratePerKm)+driverBetta;
         apprFare = "Rs."+ Math.round(totalfare)+"/-";
         
@@ -246,12 +262,6 @@ function sendTelegramMsg(){
 emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
     event.preventDefault(); // Prevent form submission 
-        if(distance < 100){
-            const dropInput = document.getElementById("drop-point");
-            dropInput.setCustomValidity("Distance must be lesser than 100 km.");
-            dropInput.reportValidity();    
-            return 
-        }
         document.getElementById("appr-fare").classList.add("hidden");
         formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
         formattedDate = formateDate(document.getElementById("input-5").value);
@@ -417,10 +427,9 @@ $(document).on('click', function(event) {
         $('#drop-dropdown-list').slideUp('fast').empty();
         console.log($('#t-dropdown-list'));
         const dropInput = document.getElementById("drop-point");
-        if(dropInput.value!=""){
-            dropInput.setCustomValidity("");
-        }
+       
         $('#t-dropdown-list').slideUp('fast');
+        calculateFare();
     }
 });
 
@@ -466,7 +475,8 @@ $('.t-dropdown-input').on('keydown', function(event) {
                         lat: selectedItem.data('lat'),
                         lng: selectedItem.data('lng')
                     };    
-                }
+                }  
+                calculateFare();
                 console.log(pickupCoords);
                 console.log(dropCoords);
                 
@@ -524,7 +534,3 @@ document.getElementById('round-trip').addEventListener('change', function() {
     console.log('Round Trip:', roundTripValue);
 });
 
-document.getElementById("pickup-point").addEventListener("input", calculateFare);
-document.getElementById("drop-point").addEventListener("input", calculateFare);
-document.getElementById("round-trip").addEventListener("change", calculateFare);
-document.getElementById("input-7").addEventListener("change", calculateFare);
