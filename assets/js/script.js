@@ -359,7 +359,7 @@ $(document).on('click', function(event) {
         $('#pickup-dropdown-list').slideUp('fast').empty();
         $('#drop-dropdown-list').slideUp('fast').empty();
         console.log($('#t-dropdown-list'));
-        $('#t-dropdown-list').slideUp('fast').empty();
+        $('#t-dropdown-list').slideUp('fast');
     }
 });
 

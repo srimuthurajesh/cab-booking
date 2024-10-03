@@ -163,11 +163,12 @@
               <input type="text" name="cab_type" id="input-7" class="input-field t-dropdown-input cartype" placeholder="Select cab type" required autocomplete="off">
                  <!--<span class="t-select-btn">
                   </span>-->
-                  <ul class="t-dropdown-list">
-                    <li class="t-dropdown-item">Hatchback</li>
-                    <li class="t-dropdown-item">Sedan</li>
-                    <li class="t-dropdown-item">SUV/MPV</li>
-                    <li class="t-dropdown-item">7 Seater or Innova </li>
+                  <ul id="t-dropdown-list" class="t-dropdown-list">
+                    <li class="t-dropdown-item">Hatchback(Rs.14/km)</li>
+                    <li class="t-dropdown-item">Sedan(Rs.15/km)</li>
+                    <li class="t-dropdown-item">SUV/MPV(Rs.19/km)</li>
+                    <li class="t-dropdown-item">Innova(Rs.20/km)</li>
+                    <li class="t-dropdown-item">Innova Crysta(Rs.25/km)</li>
                 </ul>
                 
             </div>
@@ -275,7 +276,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("Sedan")'>Book now</button>
+                    <button class="btn" onClick='populate("Sedan(Rs.15/km)")'>Book now</button>
 
                   </div>
 
@@ -340,7 +341,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("Hatchback")'>Book now</button>
+                    <button class="btn" onClick='populate("Hatchback(Rs.14/km)")'>Book now</button>
 
                   </div>
 
@@ -404,7 +405,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("Sedan")'>Book now</button>
+                    <button class="btn" onClick='populate("Sedan(Rs.15/km)")'>Book now</button>
 
                   </div>
 
@@ -470,7 +471,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("7 Seater or Innova")'>Book now</button>
+                    <button class="btn" onClick='populate("Innova(Rs.20/km)")'>Book now</button>
 
                   </div>
 
@@ -536,7 +537,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("7 Seater or Innova")'>Book now</button>
+                    <button class="btn" onClick='populate("Innova Crysta(Rs.25/km)")'>Book now</button>
 
                   </div>
 
@@ -601,7 +602,7 @@
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
-                    <button class="btn" onClick='populate("SUV/MPV")'>Book now</button>
+                    <button class="btn" onClick='populate("SUV/MPV(Rs.19/km)")'>Book now</button>
 
                   </div>
 
