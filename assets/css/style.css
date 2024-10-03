@@ -1083,7 +1083,9 @@ input[type=number] {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
+    .input-wrapper-success{
+        width: 60%;
+    }
   .hero-banner {
     display: block;
     background: url("../images/hero-banner.jpeg") no-repeat;
@@ -1380,6 +1382,8 @@ input-wrapper-success ion-icon {
 #customer_drop_loc,
 #round_trip,
 #cab_type,
+#distance,
+#fare,
 #customer_pickup_time {
     color: #2c662d;
 }

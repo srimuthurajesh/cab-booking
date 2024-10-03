@@ -18,6 +18,7 @@ let dropCoords = {};
 let roundTripValue = 'No';
 let formattedPickupTime='';
 let formattedDate='';
+let distance =0;
 inputDate.min = ` ₹{year}- ₹{month}- ₹{day}`;
 const navToggleFunc = function () {
   navToggleBtn.classList.toggle("active");
@@ -68,6 +69,34 @@ window.addEventListener("scroll", function () {
   window.scrollY >= 10 ? header.classList.add("active")
     : header.classList.remove("active");
 });
+function calculateFare(){
+    let cabType = document.getElementById('input-7').value;
+     let ratePerKm;
+
+    switch (cabType) {
+        case 'Hatchback(Rs.14/km)':
+            ratePerKm = 14;
+            break;
+        case 'Sedan(Rs.15/km)':
+            ratePerKm = 15;
+            break;
+        case 'SUV/MPV(Rs.19/km)':
+            ratePerKm = 19;
+            break;
+        case 'Innova(Rs.20/km)':
+            ratePerKm = 20;
+            break;
+        case 'Innova Crysta(Rs.25/km)':
+            ratePerKm = 25;
+            break;
+        default:
+            console.log('Unknown car type selected');
+            return 0; // Return 0 if the car type is not recognized
+    }
+    let driverBetta = distance>400?500:300;
+    let totalfare = (distance * ratePerKm)+driverBetta;
+    return "Rs."+ Math.round(totalfare)+"/-";
+}
  function showSuccessMessage() {
     document.querySelector('.input-wrapper-success').style.display = 'flex';
     document.getElementById('customer_name').innerText = document.getElementById('input-1').value;
@@ -77,6 +106,9 @@ window.addEventListener("scroll", function () {
     document.getElementById('customer_number').innerText = document.getElementById('input-2').value;
     document.getElementById('cab_type').innerText = document.getElementById('input-7').value;
     document.getElementById('round_trip').innerText = roundTripValue;
+    document.getElementById('distance').innerText = distance+" km";
+    let fare = calculateFare();
+    document.getElementById('fare').innerText = fare?fare:"-";
 }
 function constructGoogleMapsLink(lat, lng) {
     return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
@@ -124,8 +156,10 @@ function getDistanceBetweenPoints(pickupCoords, dropCoords, callback) {
         })
         .then(data => {
             if (data.rows && data.rows.length > 0 && data.rows[0] && data.rows[0].elements && data.rows[0].elements.length > 0) {
-                const distance = data.rows[0].elements[0].distance; // distance in meters
-                callback(distance / 1000); // Convert to kilometers
+                distance = data.rows[0].elements[0].distance; // distance in meters
+                distance = distance?distance/1000:0;
+                distance = distance.toFixed(1);
+                callback(); // Convert to kilometers
             } else {
                 console.error('No routes found');
                 callback(null);
@@ -146,8 +180,8 @@ function sendTelegramMsg(){
     const dropMapLink = constructGoogleMapsLink(dropCoords.lat, dropCoords.lng);
     const pickupTime = document.getElementById('customer_pickup_time').innerText;
     const cabType = document.getElementById('cab_type').innerText;
+    const fare = document.getElementById('fare').innerText;
     
-    getDistanceBetweenPoints(pickupCoords, dropCoords, function (distance) {
    
         // Construct the message with placeholders replaced
         const messageText = `
@@ -162,8 +196,9 @@ function sendTelegramMsg(){
             Drop Map Link: ${dropMapLink}  
             Pickup Date/Time: ${pickupTime}  
             Cab Type: ${cabType}
-            Total Distance: ${distance.toFixed(1)} km  
+            Total Distance: ${distance} km  
             Round Trip: ${roundTripValue}  
+            Appro Fare: ${fare}  
             
             Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
             Thank you!
@@ -191,19 +226,20 @@ function sendTelegramMsg(){
         .catch(error => {
             console.error('Error:', error);
         });
-        
-     });    
+           
 }
 emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
-    event.preventDefault(); // Prevent form submission
-    formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
-    formattedDate = formateDate(document.getElementById("input-5").value);
-    console.log(this);
-    showSuccessMessage();        
-    sendEmail(this);
-    sendTelegramMsg();
-    this.reset();
+    event.preventDefault(); // Prevent form submission 
+    getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {
+        formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
+        formattedDate = formateDate(document.getElementById("input-5").value);
+        console.log(this);
+        showSuccessMessage();        
+        sendEmail(this);
+        sendTelegramMsg();
+        this.reset();
+     });
 });
 
     
