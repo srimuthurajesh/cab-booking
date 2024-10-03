@@ -19,6 +19,7 @@ let roundTripValue = 'No';
 let formattedPickupTime='';
 let formattedDate='';
 let distance =0;
+let apprFare;
 inputDate.min = ` ₹{year}- ₹{month}- ₹{day}`;
 const navToggleFunc = function () {
   navToggleBtn.classList.toggle("active");
@@ -71,31 +72,42 @@ window.addEventListener("scroll", function () {
 });
 function calculateFare(){
     let cabType = document.getElementById('input-7').value;
-     let ratePerKm;
-
-    switch (cabType) {
-        case 'Hatchback(Rs.14/km)':
-            ratePerKm = 14;
-            break;
-        case 'Sedan(Rs.15/km)':
-            ratePerKm = 15;
-            break;
-        case 'SUV/MPV(Rs.19/km)':
-            ratePerKm = 19;
-            break;
-        case 'Innova(Rs.20/km)':
-            ratePerKm = 20;
-            break;
-        case 'Innova Crysta(Rs.25/km)':
-            ratePerKm = 25;
-            break;
-        default:
-            console.log('Unknown car type selected');
-            return 0; // Return 0 if the car type is not recognized
+    let pickupPoint = document.getElementById("pickup-point").value;
+    let dropPoint = document.getElementById("drop-point").value;
+    let roundTrip = document.getElementById("round-trip").value; 
+    if(!(cabType && pickupPoint && dropPoint && roundTrip)){
+        return;
     }
-    let driverBetta = distance>400?500:300;
-    let totalfare = (distance * ratePerKm)+driverBetta;
-    return "Rs."+ Math.round(totalfare)+"/-";
+    getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {
+         let ratePerKm;
+
+        switch (cabType) {
+            case 'Hatchback(Rs.14/km)':
+                ratePerKm = 14;
+                break;
+            case 'Sedan(Rs.15/km)':
+                ratePerKm = 15;
+                break;
+            case 'SUV/MPV(Rs.19/km)':
+                ratePerKm = 19;
+                break;
+            case 'Innova(Rs.20/km)':
+                ratePerKm = 20;
+                break;
+            case 'Innova Crysta(Rs.25/km)':
+                ratePerKm = 25;
+                break;
+            default:
+                console.log('Unknown car type selected');
+                return 0; // Return 0 if the car type is not recognized
+        }
+        let driverBetta = distance>400?500:300;
+        let totalfare = (distance * ratePerKm)+driverBetta;
+        apprFare = "Rs."+ Math.round(totalfare)+"/-";
+        
+        document.getElementById("appr-fare").classList.remove("hidden");
+        document.getElementById("appro_fare").innerText = apprFare;
+    });
 }
  function showSuccessMessage() {
     document.querySelector('.input-wrapper-success').style.display = 'flex';
@@ -107,8 +119,7 @@ function calculateFare(){
     document.getElementById('cab_type').innerText = document.getElementById('input-7').value;
     document.getElementById('round_trip').innerText = roundTripValue;
     document.getElementById('distance').innerText = distance+" km";
-    let fare = calculateFare();
-    document.getElementById('fare').innerText = fare?fare:"-";
+    document.getElementById('fare').innerText = apprFare?apprFare:"-";
 }
 function constructGoogleMapsLink(lat, lng) {
     return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
@@ -231,13 +242,13 @@ function sendTelegramMsg(){
 emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
     event.preventDefault(); // Prevent form submission 
-    getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {
         if(distance < 100){
             const dropInput = document.getElementById("drop-point");
             dropInput.setCustomValidity("Distance must be lesser than 100 km.");
             dropInput.reportValidity();    
             return 
         }
+        document.getElementById("appr-fare").classList.add("hidden");
         formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
         formattedDate = formateDate(document.getElementById("input-5").value);
         console.log(this);
@@ -245,7 +256,7 @@ document.getElementById('hero-form').addEventListener('submit', function (event)
         sendEmail(this);
         sendTelegramMsg();
         this.reset();
-     });
+     
 });
 
     
@@ -508,3 +519,8 @@ document.getElementById('round-trip').addEventListener('change', function() {
     roundTripValue = this.checked ? 'Yes' : 'No';
     console.log('Round Trip:', roundTripValue);
 });
+
+document.getElementById("pickup-point").addEventListener("input", calculateFare);
+document.getElementById("drop-point").addEventListener("input", calculateFare);
+document.getElementById("round-trip").addEventListener("change", calculateFare);
+document.getElementById("input-7").addEventListener("change", calculateFare);
