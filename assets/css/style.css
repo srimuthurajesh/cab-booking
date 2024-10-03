@@ -901,6 +901,7 @@ input[type=number] {
   padding: 5px 20px;
   margin: 0;
   cursor: pointer;
+font-size: small;
 }
 
 .highlight, .t-dropdown-item:hover {

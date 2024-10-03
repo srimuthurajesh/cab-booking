@@ -232,6 +232,12 @@ emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
     event.preventDefault(); // Prevent form submission 
     getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {
+        if(distance < 100){
+            const dropInput = document.getElementById("drop-point");
+            dropInput.setCustomValidity("Distance must be lesser than 100 km.");
+            dropInput.reportValidity();    
+            return 
+        }
         formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
         formattedDate = formateDate(document.getElementById("input-5").value);
         console.log(this);
@@ -395,6 +401,10 @@ $(document).on('click', function(event) {
         $('#pickup-dropdown-list').slideUp('fast').empty();
         $('#drop-dropdown-list').slideUp('fast').empty();
         console.log($('#t-dropdown-list'));
+        const dropInput = document.getElementById("drop-point");
+        if(dropInput.value!=""){
+            dropInput.setCustomValidity("");
+        }
         $('#t-dropdown-list').slideUp('fast');
     }
 });
