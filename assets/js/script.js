@@ -78,11 +78,14 @@ function calculateDistance(){
     let pickupPoint = document.getElementById("pickup-point").value;
     let dropPoint = document.getElementById("drop-point").value;
     let cabType = document.getElementById("input-7").value;
-    if((!pickupPoint||!dropPoint ||!cabType)){
+    if((!pickupPoint||!dropPoint ||!cabType || document.getElementById("pickup-point").validationMessage!=""|| document.getElementById("drop-point").validationMessage!="")){
+        document.getElementById("appr-fare").classList.add("hidden");
         return;
     }
+    
     if((pickupPointValue==pickupPoint && dropPointValue==dropPoint && cabType==cabTypeValue && roundTripValue==prevRoundTripValue)){
         if(validateDropPoint()==false){
+            document.getElementById("appr-fare").classList.add("hidden");
             return;
         }
     }
@@ -90,8 +93,8 @@ function calculateDistance(){
     dropPointValue = document.getElementById("drop-point").value;
     prevRoundTripValue = roundTripValue;
     cabTypeValue = cabType;
-    getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {   
-        if(validateDropPoint()!=false){
+    getDistanceBetweenPoints(pickupCoords, dropCoords, (sucess)=> {   
+        if(sucess != false && validateDropPoint()!=false){
             calculateFare();    
         }
         
@@ -222,12 +225,12 @@ function getDistanceBetweenPoints(pickupCoords, dropCoords, callback) {
                 callback(); // Convert to kilometers
             } else {
                 console.error('No routes found');
-                callback(null);
+                callback(false);
             }
         })
         .catch(error => {
             console.error('Error fetching distance:', error);
-            callback(null);
+            callback(false);
         });
 }
 
@@ -244,28 +247,27 @@ function sendTelegramMsg(){
     
    
         // Construct the message with placeholders replaced
-        const messageText = 
-`Dear Admin,
+        const messageText = `
+Dear Admin,
 A new drop taxi booking has been made. Here are the details:
 
 Customer Name: ${customerName}  
 Contact Number: ${customerNumber}
 
-Pickup Location: ${customerPickupLoc}  
-Pickup Map Link: ${pickupMapLink}  
-Drop Location: ${customerDropLoc}  
-Drop Map Link: ${dropMapLink}  
+Pickup Location: [${customerPickupLoc}](${pickupMapLink})  
 
+Drop Location: [${customerDropLoc}](${dropMapLink})
+            
 Pickup Date/Time: ${pickupTime}  
 Cab Type: ${cabType}
 Total Distance: ${distance} km  
 Round Trip: ${roundTripValue}  
 Appro Fare: ${fare}  
 
-Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
 Thank you!
 Best regards,\n
-Moon Drop taxi, Chennai`;
+Moon Drop taxi, Chennai
+        `;
 
         // URL encode the message
         const urlEncodedMessage = encodeURIComponent(messageText);
@@ -273,7 +275,7 @@ Moon Drop taxi, Chennai`;
 
         console.log(messageText);
         // Construct the URL for the Telegram API request
-        const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}&&disable_web_page_preview=true`;
+        const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}&&disable_web_page_preview=true&parse_mode=Markdown`;
         console.log(url);
         fetch(url)
         .then(response => response.json())
@@ -393,11 +395,13 @@ function updateDropdown(dropdownList, predictions, otherFieldValue, fieldType) {
                 // Store the coordinates based on the field type
                 listItem.on('click', function() {
                     if (fieldType === 'pickup') {
+                        document.getElementById("pickup-point").setCustomValidity("");
                         pickupCoords = {
                             lat: prediction.geometry.location.lat,
                             lng: prediction.geometry.location.lng
                         };
                     } else if (fieldType === 'drop') {
+                        document.getElementById("drop-point").setCustomValidity("");
                         dropCoords = {
                             lat: prediction.geometry.location.lat,
                             lng: prediction.geometry.location.lng
@@ -413,6 +417,15 @@ function updateDropdown(dropdownList, predictions, otherFieldValue, fieldType) {
             $(this).css('display', 'block'); // Ensures the display is set to block
         });
     } else {
+        if (fieldType === 'pickup') {                    
+            document.getElementById("pickup-point").setCustomValidity("Location not found");
+            document.getElementById("pickup-point").reportValidity();
+            document.getElementById("appr-fare").classList.add("hidden");
+        } else if(fieldType === 'drop'){
+            document.getElementById("drop-point").setCustomValidity("Location not found");
+            document.getElementById("drop-point").reportValidity();
+            document.getElementById("appr-fare").classList.add("hidden");
+        }
         dropdownList.addClass('empty'); // Add empty class if no predictions
         dropdownList.slideUp('fast'); // Hide if no results
     }
