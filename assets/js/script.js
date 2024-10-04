@@ -244,27 +244,28 @@ function sendTelegramMsg(){
     
    
         // Construct the message with placeholders replaced
-        const messageText = `
-            Dear Admin,
-            A new drop taxi booking has been made. Here are the details:
-           
-            Customer Name: ${customerName}  
-            Contact Number: ${customerNumber}  
-            Pickup Location: ${customerPickupLoc}  
-            Pickup Map Link: ${pickupMapLink}  
-            Drop Location: ${customerDropLoc}  
-            Drop Map Link: ${dropMapLink}  
-            Pickup Date/Time: ${pickupTime}  
-            Cab Type: ${cabType}
-            Total Distance: ${distance} km  
-            Round Trip: ${roundTripValue}  
-            Appro Fare: ${fare}  
-            
-            Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
-            Thank you!
-            Best regards,\n
-            Moon Drop taxi, Chennai
-            `;
+        const messageText = 
+`Dear Admin,
+A new drop taxi booking has been made. Here are the details:
+
+Customer Name: ${customerName}  
+Contact Number: ${customerNumber}
+
+Pickup Location: ${customerPickupLoc}  
+Pickup Map Link: ${pickupMapLink}  
+Drop Location: ${customerDropLoc}  
+Drop Map Link: ${dropMapLink}  
+
+Pickup Date/Time: ${pickupTime}  
+Cab Type: ${cabType}
+Total Distance: ${distance} km  
+Round Trip: ${roundTripValue}  
+Appro Fare: ${fare}  
+
+Please ensure that you are available at the designated pickup location on time to provide the service to our valued customer.\n
+Thank you!
+Best regards,\n
+Moon Drop taxi, Chennai`;
 
         // URL encode the message
         const urlEncodedMessage = encodeURIComponent(messageText);
