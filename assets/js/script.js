@@ -291,13 +291,14 @@ function sendTelegramMsg(){
 emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
     event.preventDefault(); // Prevent form submission 
-        formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
-        formattedDate = formateDate(document.getElementById("input-5").value);
-        console.log(this);
-        showSuccessMessage();        
-        sendEmail(this);
-        sendTelegramMsg();
-        this.reset();
+    formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
+    formattedDate = formateDate(document.getElementById("input-5").value);
+    console.log(this);
+    showSuccessMessage();        
+    sendEmail(this);
+    sendTelegramMsg();
+    document.getElementById("appr-fare").classList.add("hidden");
+    this.reset();
      
 });
 

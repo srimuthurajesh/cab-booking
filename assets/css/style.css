@@ -1331,6 +1331,11 @@ font-size: small;
     }
     
 }
+    .appr-fare {
+        font-size:small;
+        margin: 20px;
+    }
+
 @supports (-webkit-backdrop-filter: none) {
       .submit-btn {
             grid-column: 1 / span 1; /* Puts it in the fourth column */
