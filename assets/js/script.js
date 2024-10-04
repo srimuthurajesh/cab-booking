@@ -16,10 +16,14 @@ const day = now.getDate().toString().padStart(2, '0');
 let pickupCoords = {};
 let dropCoords = {};
 let roundTripValue = 'No';
+let prevRoundTripValue = '';
 let formattedPickupTime='';
 let formattedDate='';
 let distance =0;
 let apprFare;
+let pickupPointValue='';
+let dropPointValue='';
+let cabTypeValue='';
 inputDate.min = ` ₹{year}- ₹{month}- ₹{day}`;
 const navToggleFunc = function () {
   navToggleBtn.classList.toggle("active");
@@ -70,26 +74,50 @@ window.addEventListener("scroll", function () {
   window.scrollY >= 10 ? header.classList.add("active")
     : header.classList.remove("active");
 });
-function calculateFare(){
+function calculateDistance(){
     let pickupPoint = document.getElementById("pickup-point").value;
     let dropPoint = document.getElementById("drop-point").value;
-    if(!(pickupPoint && dropPoint)){
+    let cabType = document.getElementById("input-7").value;
+    if((!pickupPoint||!dropPoint ||!cabType)){
         return;
     }
+    if((pickupPointValue==pickupPoint && dropPointValue==dropPoint && cabType==cabTypeValue && roundTripValue==prevRoundTripValue)){
+        if(validateDropPoint()==false){
+            return;
+        }
+    }
+    pickupPointValue = document.getElementById("pickup-point").value;
+    dropPointValue = document.getElementById("drop-point").value;
+    prevRoundTripValue = roundTripValue;
+    cabTypeValue = cabType;
     getDistanceBetweenPoints(pickupCoords, dropCoords, ()=> {   
-        const dropInput = document.getElementById("drop-point");
-        const currentValidityMessage = dropInput.validationMessage;
-        if(roundTripValue!="Yes" && distance < 100 && currentValidityMessage!="Single trip must be at least 100 km"){
-                dropInput.setCustomValidity("Single trip must be at least 100 km");
-                dropInput.reportValidity();    
-                return 
+        if(validateDropPoint()!=false){
+            calculateFare();    
         }
-        if(roundTripValue=="Yes" && distance < 250 && currentValidityMessage!="Round trip must be at least 250 km"){
-            dropInput.setCustomValidity("Round trip must be at least 250 km");
-            dropInput.reportValidity();    
-            return 
-        }
-        let cabType = document.getElementById('input-7').value;
+        
+    });
+}
+function validateDropPoint(){
+    const dropInput = document.getElementById("drop-point");
+    const currentValidityMessage = dropInput.validationMessage;
+    console.log(currentValidityMessage);
+    if(roundTripValue!="Yes" && distance < 100 && currentValidityMessage!="Single trip must be at least 100 km"){
+            dropInput.setCustomValidity("Single trip must be at least 100 km");
+            dropInput.reportValidity();
+            document.getElementById("appr-fare").classList.add("hidden");
+            return false;
+    }
+    if(roundTripValue=="Yes" && distance < 250 && currentValidityMessage!="Round trip must be at least 250 km"){
+        dropInput.setCustomValidity("Round trip must be at least 250 km");
+        dropInput.reportValidity();
+        document.getElementById("appr-fare").classList.add("hidden");
+        return false;
+    }
+    dropInput.setCustomValidity("");
+    return true;
+}
+function calculateFare(){
+    let cabType = document.getElementById('input-7').value;
         if(!cabType){
             return;
         }
@@ -116,14 +144,15 @@ function calculateFare(){
                 return 0; // Return 0 if the car type is not recognized
         }
         let driverBetta = distance>400?500:300;
-        if(roundTripValue=="Yes")
+        if(roundTripValue=="Yes"){
             ratePerKm = ratePerKm-1;
+            distance = distance*2;
+        }
         let totalfare = (distance * ratePerKm)+driverBetta;
         apprFare = "Rs."+ Math.round(totalfare)+"/-";
         
         document.getElementById("appr-fare").classList.remove("hidden");
         document.getElementById("appro_fare").innerText = apprFare;
-    });
 }
  function showSuccessMessage() {
     document.querySelector('.input-wrapper-success').style.display = 'flex';
@@ -243,7 +272,7 @@ function sendTelegramMsg(){
 
         console.log(messageText);
         // Construct the URL for the Telegram API request
-        const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}`;
+        const url = `https://api.telegram.org/bot6577358669:AAHaR6p_uZ0sGDRwuxS0YKqyg-BVSpZPcZI/sendMessage?chat_id=-4231118038&text=${urlEncodedMessage}&&disable_web_page_preview=true`;
         console.log(url);
         fetch(url)
         .then(response => response.json())
@@ -262,7 +291,6 @@ function sendTelegramMsg(){
 emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
     event.preventDefault(); // Prevent form submission 
-        document.getElementById("appr-fare").classList.add("hidden");
         formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
         formattedDate = formateDate(document.getElementById("input-5").value);
         console.log(this);
@@ -279,16 +307,17 @@ const apiKey = 'CvBHxlan7n1vSlyPb4yJrb3DL0aSACdZotfvRdye';
 $('.t-dropdown-input').on('input', function() {
     const dropdownList = $(this).next('.t-dropdown-list');
     const query = $(this).val().trim();
-
+    const elementId = $(this).attr('id');
     // Check which input is being used
-    if ($(this).attr('id') === 'pickup-point' || $(this).attr('id') === 'drop-point') {
-        console.log("Input detected for:", $(this).attr('id'));
+    if (elementId === 'pickup-point' || elementId === 'drop-point') {
+        console.log("Input detected for:", elementId);
         
         if (query.length > 1) {
             // Call the appropriate fetch function based on the input
-            if ($(this).attr('id') === 'pickup-point') {
+            if (elementId === 'pickup-point') {
                     debouncedFetchPickupSuggestions(query); // Use debounced functio
-            } else if ($(this).attr('id') === 'drop-point') {
+            } else if (elementId === 'drop-point') {
+                $('#' + elementId)[0].setCustomValidity('');
                 debouncedFetchDropSuggestions(query);
             }
         } else {
@@ -413,10 +442,12 @@ $('.t-dropdown-list').on('click', 'li.t-dropdown-item', function() {
     dropdownInput.val(selectedText);
     console.log("d");
    if (dropdownInput.attr('id') === 'pickup-point' || dropdownInput.attr('id') === 'drop-point') {
+        calculateDistance();    
         dropdownInput.next('.t-dropdown-list').slideUp('fast').empty(); // Clear the list
     } else {
         dropdownInput.next('.t-dropdown-list').slideUp('fast'); // Just close for other inputs
     }
+    calculateDistance();
 });
 
 // Close dropdown if clicked outside
@@ -429,7 +460,6 @@ $(document).on('click', function(event) {
         const dropInput = document.getElementById("drop-point");
        
         $('#t-dropdown-list').slideUp('fast');
-        calculateFare();
     }
 });
 
@@ -476,7 +506,7 @@ $('.t-dropdown-input').on('keydown', function(event) {
                         lng: selectedItem.data('lng')
                     };    
                 }  
-                calculateFare();
+                calculateDistance();
                 console.log(pickupCoords);
                 console.log(dropCoords);
                 
@@ -531,6 +561,7 @@ function populate(carType){
 
 document.getElementById('round-trip').addEventListener('change', function() {
     roundTripValue = this.checked ? 'Yes' : 'No';
+    calculateDistance();
     console.log('Round Trip:', roundTripValue);
 });
 
