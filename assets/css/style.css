@@ -785,8 +785,8 @@ button, a { transition: var(--transition); }
   row-gap: 50px;
 }
 
-.footer-top .logo { margin-bottom: 20px; }
-
+.footer-top .logo { margin-bottom: 20px;}
+.logo { color: var(--carolina-blue);}
 .footer-text {
   font-size: var(--fs-6);
   line-height: 1.8;

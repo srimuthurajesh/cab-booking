@@ -135,7 +135,7 @@
               <label for="input-2" class="input-label">Mobile Number</label>
 
               <input type="number" name="customer_number" id="input-2" class="input-field" placeholder="Mobile Number" maxlength='10' minlength='10'  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-    pattern="^\d{10}$"  required autocomplete="off">
+    pattern="^\d{10}$"  oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '').slice(0, this.maxLength);" required autocomplete="off">
             </div>
 
             <div class="input-wrapper">

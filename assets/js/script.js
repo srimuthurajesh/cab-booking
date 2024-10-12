@@ -110,7 +110,7 @@ function validateDropPoint(){
             document.getElementById("appr-fare").classList.add("hidden");
             return false;
     }
-    if(roundTripValue=="Yes" && distance < 250 && currentValidityMessage!="Round trip must be at least 250 km"){
+    if(roundTripValue=="Yes" && distance < 125 && currentValidityMessage!="Round trip must be at least 250 km"){
         dropInput.setCustomValidity("Round trip must be at least 250 km");
         dropInput.reportValidity();
         document.getElementById("appr-fare").classList.add("hidden");
@@ -300,6 +300,7 @@ document.getElementById('hero-form').addEventListener('submit', function (event)
     showSuccessMessage();        
     sendEmail(this);
     sendTelegramMsg();
+    roundTripValue = 'No';
     document.getElementById("appr-fare").classList.add("hidden");
     this.reset();
      
