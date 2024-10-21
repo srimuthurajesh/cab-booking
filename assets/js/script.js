@@ -104,16 +104,20 @@ function validateDropPoint(){
     const dropInput = document.getElementById("drop-point");
     const currentValidityMessage = dropInput.validationMessage;
     console.log(currentValidityMessage);
-    if(roundTripValue!="Yes" && distance < 100 && currentValidityMessage!="Single trip must be at least 100 km"){
-            dropInput.setCustomValidity("Single trip must be at least 100 km");
+    if(roundTripValue!="Yes" && distance < 51){
+        if(currentValidityMessage!="Single trip must be at least 50 km"){
+            dropInput.setCustomValidity("Single trip must be at least 50 km");
             dropInput.reportValidity();
             document.getElementById("appr-fare").classList.add("hidden");
-            return false;
+        }
+        return false;
     }
-    if(roundTripValue=="Yes" && distance < 125 && currentValidityMessage!="Round trip must be at least 250 km"){
-        dropInput.setCustomValidity("Round trip must be at least 250 km");
-        dropInput.reportValidity();
-        document.getElementById("appr-fare").classList.add("hidden");
+    if(roundTripValue=="Yes" && distance < 125){
+        if(currentValidityMessage!="Round trip must be at least 250 km"){
+            dropInput.setCustomValidity("Round trip must be at least 250 km");
+            dropInput.reportValidity();
+            document.getElementById("appr-fare").classList.add("hidden");
+        }
         return false;
     }
     dropInput.setCustomValidity("");
@@ -152,10 +156,15 @@ function calculateFare(){
             distance = distance*2;
         }
         let totalfare = (distance * ratePerKm)+driverBetta;
+        if(totalfare<1801)
+            totalfare=1800;
         apprFare = "Rs."+ Math.round(totalfare)+"/-";
         
         document.getElementById("appr-fare").classList.remove("hidden");
         document.getElementById("appro_fare").innerText = apprFare;
+        document.getElementById("total_km").innerText = distance+" km";
+        document.getElementById("charges_km").innerText = "Rs."+ratePerKm+"/-"; 
+        document.getElementById("driver_betta").innerText = "Rs."+driverBetta+"/-";
 }
  function showSuccessMessage() {
     document.querySelector('.input-wrapper-success').style.display = 'flex';
@@ -577,6 +586,7 @@ function populate(carType){
 
 document.getElementById('round-trip').addEventListener('change', function() {
     roundTripValue = this.checked ? 'Yes' : 'No';
+    document.getElementById("drop-point").setCustomValidity("");
     calculateDistance();
     console.log('Round Trip:', roundTripValue);
 });

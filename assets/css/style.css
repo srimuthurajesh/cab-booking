@@ -1416,3 +1416,6 @@ input-wrapper-success ion-icon {
 .hidden {
   display: none;
 }
+.inline {
+    display: inline
+}
