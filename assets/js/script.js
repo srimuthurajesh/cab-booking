@@ -585,10 +585,26 @@ function populate(carType){
         $('.t-dropdown-input').focus();
     });
 }
+const inputField = document.getElementById('input-2');
+
+inputField.addEventListener('input', () => {
+  // Remove non-numeric characters
+  inputField.value = inputField.value.replace(/[^0-9]/g, '');
+
+  // Limit input length to maxLength
+  inputField.value = inputField.value.slice(0, inputField.maxLength);
+
+  // Validate minLength
+  if (inputField.value.length < inputField.minLength) {
+    inputField.setCustomValidity('Mobile number must be 10 digits.');
+  } else {
+    inputField.setCustomValidity(''); 
+  }
+});
 
 document.getElementById('round-trip').addEventListener('change', function() {
     roundTripValue = this.checked ? 'Yes' : 'No';
-    document.getElementById("drop-point").setCustomValidity("");
+    document.getElementById("drop-point").  setCustomValidity("");
     calculateDistance();
     console.log('Round Trip:', roundTripValue);
 });
