@@ -254,7 +254,6 @@ function sendTelegramMsg(){
     const cabType = document.getElementById('cab_type').innerText;
     const fare = document.getElementById('fare').innerText;
     
-   
         // Construct the message with placeholders replaced
         const messageText = `
 Dear Admin,
@@ -270,7 +269,8 @@ Drop Location: [${customerDropLoc}](${dropMapLink})
 Pickup Date/Time: ${pickupTime}  
 Cab Type: ${cabType}
 Total Distance: ${distance} km  
-Round Trip: ${roundTripValue}  
+Round Trip: ${roundTripValue}
+Driver Betta: Rs.300/-
 Appro Fare: ${fare}  
 
 Thank you!
