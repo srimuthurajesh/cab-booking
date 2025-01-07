@@ -275,7 +275,8 @@ Appro Fare: ${fare}
 
 Thank you!
 Best regards,\n
-Moon Drop taxi, Chennai
+**Family Drop taxi**\n
+[www.familydroptaxi.in](https://familydroptaxi.in)
         `;
 
         // URL encode the message
