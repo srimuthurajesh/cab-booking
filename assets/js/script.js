@@ -253,6 +253,7 @@ function sendTelegramMsg(){
     const pickupTime = document.getElementById('customer_pickup_time').innerText;
     const cabType = document.getElementById('cab_type').innerText;
     const fare = document.getElementById('fare').innerText;
+    const driverbetta = document.getElementById("driver_betta").innerText
     
         // Construct the message with placeholders replaced
         const messageText = `
@@ -270,7 +271,7 @@ Pickup Date/Time: ${pickupTime}
 Cab Type: ${cabType}
 Total Distance: ${distance} km  
 Round Trip: ${roundTripValue}
-Driver Betta: Rs.300/-
+Driver Betta: ${driverbetta}
 Appro Fare: ${fare}  
 
 Thank you!
