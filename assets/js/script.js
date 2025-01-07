@@ -131,14 +131,14 @@ function calculateFare(){
         let ratePerKm;
 
         switch (cabType) {
-            case 'Sedan(Etios, Dzire etc) - Rs.15/km':
-                ratePerKm = 15;
+            case 'Sedan(Etios, Dzire etc) - Rs.14/km':
+                ratePerKm = 14;
                 break;
             case 'SUV(Marazzo, Ertiga etc) - Rs.19/km':
                 ratePerKm = 19;
                 break;
-            case 'Innova Crysta(Rs.25/km)':
-                ratePerKm = 25;
+            case 'Innova Crysta(Rs.22/km)':
+                ratePerKm = 22;
                 break;
             default:
                 console.log('Unknown car type selected');
