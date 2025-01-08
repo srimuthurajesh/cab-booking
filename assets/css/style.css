@@ -958,6 +958,9 @@ font-size: small;
     min-width: max-content;
     padding-inline: 15px;
   }
+  .responsive-logo {
+    width: 40%; 
+  }    
 
 }
 
@@ -993,7 +996,9 @@ font-size: small;
   }
 
   .header-actions .btn:first-of-type ion-icon { display: none; }
-
+   .responsive-logo {
+    width: 30%; 
+  }      
 }
 
 
@@ -1137,7 +1142,9 @@ font-size: small;
   }
 
   .social-list { margin-bottom: 0; }
-
+  .responsive-logo {
+    width: 23%; 
+  }         
 }
 
 
@@ -1183,7 +1190,9 @@ font-size: small;
   .footer-list:not(:last-of-type) { width: 25%; }
 
   .footer-list:last-of-type { width: 50%; }
-
+  .responsive-logo {
+    width: 18%; 
+  }     
 }
 
 
@@ -1195,7 +1204,9 @@ font-size: small;
  */
 
 @media (min-width: 1200px) {
-
+  .responsive-logo {
+    width: 15%; 
+  }     
   /**
    * CUSTOM PROPERTY
    */
