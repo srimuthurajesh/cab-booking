@@ -104,7 +104,7 @@ function validateDropPoint(){
     const dropInput = document.getElementById("drop-point");
     const currentValidityMessage = dropInput.validationMessage;
     console.log(currentValidityMessage);
-    if(roundTripValue!="Yes" && distance < 51){
+    if(roundTripValue!="Yes" && distance < 50){
         if(currentValidityMessage!="Single trip must be at least 50 km"){
             dropInput.setCustomValidity("Single trip must be at least 50 km");
             dropInput.reportValidity();
@@ -112,9 +112,9 @@ function validateDropPoint(){
         }
         return false;
     }
-    if(roundTripValue=="Yes" && distance < 125){
-        if(currentValidityMessage!="Round trip must be at least 250 km"){
-            dropInput.setCustomValidity("Round trip must be at least 250 km");
+    if(roundTripValue=="Yes" && distance < 50){
+        if(currentValidityMessage!="Round trip must be at least 100 km"){
+            dropInput.setCustomValidity("Round trip must be at least 100 km");
             dropInput.reportValidity();
             document.getElementById("appr-fare").classList.add("hidden");
         }
@@ -145,13 +145,28 @@ function calculateFare(){
                 return 0; // Return 0 if the car type is not recognized
         }
         let driverBetta = distance>400?500:300;
+        let minimumDistance;
+        document.getElementById("minimum_distance").innerText = ""; 
         if(roundTripValue=="Yes"){
             ratePerKm = ratePerKm-1;
             distance = distance*2;
+            if(distance<250){
+                minimumDistance = 250; 
+                document.getElementById("minimum_distance").textContent = "Minimum distance 250 Km";
+                document.getElementById("minimum_distance").appendChild(document.createElement("br"));
+            } else {
+               minimumDistance = distance;
+            }
+        } else {
+            if(distance<130){
+                minimumDistance = 130;
+                document.getElementById("minimum_distance").textContent = "Minimum distance 130 Km"; 
+                document.getElementById("minimum_distance").appendChild(document.createElement("br"));
+            } else {
+               minimumDistance = distance;
+            }
         }
-        let totalfare = (distance * ratePerKm)+driverBetta;
-        if(totalfare<1801)
-            totalfare=1800;
+        let totalfare = (minimumDistance * ratePerKm)+driverBetta;
         apprFare = "Rs."+ Math.round(totalfare)+"/-";
         
         document.getElementById("appr-fare").classList.remove("hidden");
@@ -175,6 +190,8 @@ function calculateFare(){
 function constructGoogleMapsLink(lat, lng) {
     return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 }
+
+//emailjs.init('fKdTn44q0lXV5IXY4');
 function sendEmail(thisObj){
   /*emailjs.sendForm('service_x5onnnv', 'template_wn5q4ha', thisObj)
         .then(function (response) {
@@ -248,7 +265,10 @@ function sendTelegramMsg(){
     const cabType = document.getElementById('cab_type').innerText;
     const fare = document.getElementById('fare').innerText;
     const driverbetta = document.getElementById("driver_betta").innerText
-    
+    const ipaddress="";
+    //fetch("https://checkip.amazonaws.com/").then(res => res.text()).then(data => ipaddress = data);
+    //Ip : ${ipaddress}  
+
         // Construct the message with placeholders replaced
         const messageText = `
 Dear Admin,
@@ -257,16 +277,18 @@ A new drop taxi booking has been made. Here are the details:
 Customer Name: ${customerName}  
 Contact Number: ${customerNumber}
 
-Pickup Location: [${customerPickupLoc}](${pickupMapLink})  
+Pickup Location: ${customerPickupLoc}  
+Pickup Link: ${pickupMapLink}  
 
-Drop Location: [${customerDropLoc}](${dropMapLink})
+Drop Location: ${customerDropLoc}
+Drop Link: ${dropMapLink}
             
 Pickup Date/Time: ${pickupTime}  
 Cab Type: ${cabType}
 Total Distance: ${distance} km  
 Round Trip: ${roundTripValue}
 Driver Betta: ${driverbetta}
-Appro Fare: ${fare}  
+Appro Fare: ${fare}
 
 Thank you!
 Best regards,\n
@@ -296,9 +318,17 @@ Best regards,\n
         });
            
 }
-emailjs.init('fKdTn44q0lXV5IXY4');
 document.getElementById('hero-form').addEventListener('submit', function (event) {   
-    event.preventDefault(); // Prevent form submission 
+    event.preventDefault(); // Prevent form submission
+    let text = `Due to heavy one-way traffic, fares are adjusted as follows: 
+    * Sedan (Etios, Dzire): Rs. 17/km
+    * SUV (Marazzo, Ertiga): Rs. 23/km
+    * Innova Crysta: Rs. 26/km
+
+    Proceed to book your cab?`;
+      if (confirm(text) != true) {
+        return;
+      }
     formattedPickupTime = convertTo12HourFormat(document.getElementById("input-6").value);
     formattedDate = formateDate(document.getElementById("input-5").value);
     console.log(this);
